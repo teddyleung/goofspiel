@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 const PORT = process.env.PORT || 8080;
 const bodyParser = require('body-parser');
 require('dotenv').config()
@@ -17,6 +19,10 @@ app.get('/', (req, res) => {
   res.render('index.ejs');
 });
 
+app.get('/games/:id', (req, res) => {
+  res.render('game.ejs');
+});
+
 // TODO: Delete this route when done
 app.get('/users', (req, res) => {
   db.getAllUsers()
@@ -25,7 +31,21 @@ app.get('/users', (req, res) => {
     });
 });
 
+// SOCKET LOGIC
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+  
+  socket.on('play', (msg) => {
+    console.log('received message: ' + msg);
+    io.emit('playReturn', 'received message: ' + msg);
+  });
+});
+
 // START SERVER
-app.listen(PORT, () => {
+http.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
 });
