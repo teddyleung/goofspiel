@@ -8,22 +8,17 @@
   <body>
     <h1>Goofspiel Game</h1>
     <button id='button'>Play</button>
+    <section>
+      <div><%= file_name %></div>
+      <div><%= uuid %></div>
+      <div><%= JSON.stringify(users) %></div>
+      <div><%= JSON.stringify(game_state) %></div>
+    </section>
     <script
       src="https://code.jquery.com/jquery-3.4.1.min.js"
       integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
       crossorigin="anonymous"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-      const socket = io();
-      $(() => {
-        $('#button').click(() => {
-          socket.emit('play', '1234');
-        });
-        
-        socket.on('playReturn', (msg) => {
-          console.log('From server:', msg);
-        });
-      });
-    </script>
+    <script src="/scripts/socket.js"></script>
   </body>
 </html>

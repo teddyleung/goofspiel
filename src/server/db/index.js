@@ -8,7 +8,7 @@ const pool = new Pool({
 
 const getGameAndGameType = gameUuid => {
   return pool.query(`
-    SELECT games.id, uuid, game_type_id, creator_id, created_at, started_at, completed_at, deleted_at, game_state, game_types.name as game_name, game_types.player_min, game_types.player_max
+    SELECT games.id, uuid, game_type_id, creator_id, created_at, started_at, completed_at, deleted_at, game_state, game_types.name as game_name, game_types.file_name, game_types.player_min, game_types.player_max
       FROM games
       JOIN game_types ON games.game_type_id = game_types.id
       WHERE uuid = $1

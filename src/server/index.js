@@ -4,6 +4,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const PORT = process.env.PORT || 8080;
 const bodyParser = require('body-parser');
+const path = require('path');
 require('dotenv').config()
 const db = require('./db/index');
 
@@ -13,14 +14,33 @@ app.set('view engine', 'ejs');
 
 // MIDDLEWARE
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // PAGE ROUTES
 app.get('/', (req, res) => {
-  res.render('index.ejs');
+  res.render('index');
 });
 
-app.get('/games/:id', (req, res) => {
-  res.render('game.ejs');
+app.get('/games', (req, res) => {
+  res.render('games');
+});
+
+app.get('/games/:uuid', (req, res) => {
+  db.getGameData(req.params.uuid)
+    .then(data => {
+      if (!data.created_at || data.completed_at || data.deleted_at) {
+        return res.redirect('/games');
+      }
+      // TODO validate user
+        // If not started, proceed regardless of user. If started but not a player, redirect to /games
+
+      res.render('game', {
+        file_name: data.file_name,
+        game_state: data.game_state,
+        users: data.users,
+        uuid: data.uuid
+      });
+    });
 });
 
 // TODO: Delete this route when done

@@ -14,6 +14,7 @@ CREATE TABLE users (
 CREATE TABLE game_types (
   id SERIAL PRIMARY KEY NOT NULL,
   name VARCHAR(255) NOT NULL,
+  file_name VARCHAR(255) NOT NULL,
   player_min SMALLINT NOT NULL,
   player_max SMALLINT NOT NULL
 );
