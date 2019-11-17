@@ -4,12 +4,6 @@ INSERT INTO users (username, password)
     ('Chris', 'password'),
     ('David', 'password');
 
-INSERT INTO users (username, password)
-  VALUES ('Alice', 'password'),
-    ('Bob', 'password'),
-    ('Chris', 'password'),
-    ('David', 'password');
-
 INSERT INTO game_types (name, player_min, player_max)
   VALUES ('goofspiel', '2', '2'),
     ('goldfish', '2', '2');
