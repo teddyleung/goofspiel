@@ -20,7 +20,7 @@ CREATE TABLE games (
   id SERIAL PRIMARY KEY NOT NULL,
   game_type_id INTEGER REFERENCES game_types(id) ON DELETE CASCADE,
   creator_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  created_at TIMESTAMP,
+  created_at TIMESTAMP DEFAULT NOW(),
   started_at TIMESTAMP,
   completed_at TIMESTAMP,
   deleted_at TIMESTAMP,
