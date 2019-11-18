@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Card Games</title>
+  </head>
+  <body>
+    <h1 id="game-list">My Game Room</h1> <!-- List completed games of all users -->
+
+    <% for(let gameType of Object.keys(gameNum)) { %>
+    <h2> <%= gameType %> </h2>
+
+    <table class="table">
+      <thead>  
+        <tr>
+          <th>No.</th>  <th>Started_at</th>  <th>Player_1</th>  <th>Player_2</th>  <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% for(let game of userGames) { %>
+          <% if (gameType === game.type) { %>
+            <tr>
+              <td><%= game.id %></td>
+              <td><%= game.started_at %></td>
+              <td><%= game.player1 %></td>
+              <td><%= game.player2 %></td>
+              <td><%= game.status %></td>
+            </tr>
+          <% } %>
+        <% } %>
+
+      </tbody>
+    </table>
+    <% } %>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+  </body>
+
+</html>
