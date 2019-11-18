@@ -45,7 +45,7 @@ module.exports = function(router, db) {
             .catch(e => res.send(e));
         } else {
           console.log("failed to create user.");
-          res.status(200).send({user: newUser.username});  // failed, don't redirect
+          res.status(200).send({user: newUser.username});
         }
       })
       .catch(e => res.send(e));
@@ -66,8 +66,45 @@ module.exports = function(router, db) {
     res.render(`signup`, {});
   });
     
+  router.get("/archives", (req, res) => {
+    res.render(`achives`);
+  });
+
+
   router.get("/room", (req, res) => {
-    res.render(`room`, {});
+    // let templateVar = { };
+    console.log('get to room');
+    let myGameNum = {"goofspiel": 2, "goldfish": 1};
+    let myGamesList = [
+      {
+        'id': 1,
+        'type': 'goofspiel',
+        'started_at': '2019-11-15 15:30:12',
+        'player1': 'Alice',
+        'player2': 'Tony',
+        'status': 'On goging'
+      },
+      {
+        'id': 2,
+        'type': 'goofspiel',
+        'started_at': '2019-11-16 16:30:12',
+        'player1': 'Alice',
+        'player2': 'Tony',
+        'status': 'Ended'
+      },
+      {
+        'id': 3,
+        'type': 'goldfish',
+        'started_at': '2019-11-17 15:40:12',
+        'player1': 'Alice',
+        'player2': 'Tony',
+        'status': 'On goging'
+      }
+    ]; //for testing
+
+    // res.render(`room`, {"userGames": "test"});
+    res.render(`room`, {"gameNum": myGameNum, "userGames": myGamesList});
+    // res.json(myGamesList);
   });
     
 };
