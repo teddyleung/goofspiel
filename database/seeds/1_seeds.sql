@@ -5,7 +5,7 @@ INSERT INTO users (username, password)
     ('David', 'password');
 
 INSERT INTO games (game_type_id, creator_id, game_state)
-  VALUES (1, 1, '{"players": {"Alice": {"cards": [1,2,3,4,5,6,7,8,9,10,11,12,13]}, "Bob": {"cards": [1,2,3,4,5,6,7,8,9,10,11,12,13]}}, "history": [{"Alice": null, "Bob": null}], "cards": [13, 8, 5, 7, 4, 12, 10, 1, 3, 9, 2, 6, 11]}'),
+  VALUES (1, 1, '{"players": {"Alice": {"cards": [1,2,3,4,5,6,7,8,9,10,11,12,13], "order": 1}, "Bob": {"cards": [1,2,3,4,5,6,7,8,9,10,11,12,13], "order": 2}}, "history": [{"Alice": 12, "Bob": 13}], "cards": [13, 8, 5, 7, 4, 12, 10, 1, 3, 9, 2, 6, 11]}'),
     (1, 2, null),
     (1, 3, null),
     (1, 4, null),

@@ -1,3 +1,44 @@
+<style>
+  .hidden {
+    display: none;
+  }
+</style>
 <section>
   <h2>Goofspiel EJS</h2>
+  <div>
+    <h3>Score</h3>
+    <div>
+      <span id="gsp-player-name-1">Player 1: </span>
+      <span id="gsp-score-1"></span>
+      <span> | </span>
+      <span id="gsp-player-name-2">Player 2: </span>
+      <span id="gsp-score-2"></span>
+    </div>
+    <h3>Center card</h3>
+    <div id="gsp-center-card"></div>
+    <h3>Played cards</h3>
+    <div>
+      <span>Player 1: </span>
+      <span id="gsp-played-card-1"></span>
+      <span> | </span>
+      <span>Player 2: </span>
+      <span id="gsp-played-card-2"></span>
+    </div>
+    <h3>Cards</h3>
+    <div id='gsp-cards-container'>
+      <div class='gsp-player-card hidden' data-card-value="1" id="gsp-card-1">A</div>
+      <div class='gsp-player-card hidden' data-card-value="2" id="gsp-card-2">2</div>
+      <div class='gsp-player-card hidden' data-card-value="3" id="gsp-card-3">3</div>
+      <div class='gsp-player-card hidden' data-card-value="4" id="gsp-card-4">4</div>
+      <div class='gsp-player-card hidden' data-card-value="5" id="gsp-card-5">5</div>
+      <div class='gsp-player-card hidden' data-card-value="6" id="gsp-card-6">6</div>
+      <div class='gsp-player-card hidden' data-card-value="7" id="gsp-card-7">7</div>
+      <div class='gsp-player-card hidden' data-card-value="8" id="gsp-card-8">8</div>
+      <div class='gsp-player-card hidden' data-card-value="9" id="gsp-card-9">9</div>
+      <div class='gsp-player-card hidden' data-card-value="10" id="gsp-card-10">10</div>
+      <div class='gsp-player-card hidden' data-card-value="11" id="gsp-card-11">J</div>
+      <div class='gsp-player-card hidden' data-card-value="12" id="gsp-card-12">Q</div>
+      <div class='gsp-player-card hidden' data-card-value="13" id="gsp-card-13">K</div>
+    </div>
+  </div>
 </section>
