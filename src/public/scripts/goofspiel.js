@@ -8,4 +8,8 @@ $(() => {
   socket.on('gsp-button', msg => {
     console.log(msg);
   })
+
+  socket.on('hydrate-state', data => {
+    console.log(data);
+  });
 });

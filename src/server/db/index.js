@@ -6,6 +6,15 @@ const pool = new Pool({
   database: process.env.DB_DATABASE
 });
 
+const getGame = gameUuid => {
+  return pool.query(`
+    SELECT id, uuid, game_type_id, creator_id, created_at, started_at, completed_at, deleted_at, game_state
+      FROM games
+      WHERE uuid = $1
+  `, [gameUuid])
+    .then(game => game.rows[0]);
+};
+
 const getGameAndGameType = gameUuid => {
   return pool.query(`
     SELECT games.id, uuid, game_type_id, creator_id, created_at, started_at, completed_at, deleted_at, game_state, game_types.name as game_name, game_types.file_name, game_types.player_min, game_types.player_max
@@ -45,5 +54,6 @@ const getAllUsers = () => {
 
 module.exports = {
   getAllUsers,
-  getGameData
+  getGameData,
+  getGame
 }

@@ -48,7 +48,6 @@ app.get('/games/:uuid', (req, res) => {
 
       res.render('game', {
         file_name: data.file_name,
-        game_state: data.game_state,
         users: data.users,
         uuid: data.uuid
       });
@@ -69,11 +68,19 @@ app.get('/users', (req, res) => {
   // We can also validate the game on handshake before making a connection
   // Once we know the connection is validated, then we can trust the handshake data
 io.on('connection', (socket) => {
-  console.log('a user connected');
-  console.log('handshake query', socket.handshake.query.token);
+  const uuid = socket.handshake.query.uuid;
   
-  socket.join(socket.handshake.query.uuid, () => {
-    console.log('joined' + socket.handshake.query.uuid);
+  console.log('a user connected');
+  // console.log('handshake query', socket.handshake.query.token);
+  
+  socket.join(uuid, () => {
+    db.getGame(uuid)
+      .then(game => {
+        socket.emit('hydrate-state', {
+          gameState: game.game_state
+        });
+      })
+      .catch(err => console.log(err));
   });
 
   socket.on('disconnect', () => {
@@ -81,8 +88,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('gsp-button', () => {
-    console.log('received message from', socket.handshake.query.uuid);
-    io.to(socket.handshake.query.uuid).emit('gsp-button', 'we heard the click');
+    console.log('received message from', uuid);
+    io.to(uuid).emit('gsp-button', 'we heard the click');
   });
 });
 
