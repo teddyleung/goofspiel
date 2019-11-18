@@ -59,9 +59,16 @@ io.on('connection', (socket) => {
     console.log('user disconnected');
   });
   
-  socket.on('play', (msg) => {
-    console.log('received message: ' + msg);
-    io.emit('playReturn', 'received message: ' + msg);
+  // TODO: join needs validation. Game exist? User authorized?
+  socket.on('join', msg => {
+    socket.join(msg.uuid, () => {
+      console.log('joined' + msg.uuid);
+    });
+  });
+
+  socket.on('gsp-button', msg => {
+    console.log('received message from', msg.uuid);
+    io.to(msg.uuid).emit('gsp-button', 'we heard the click');
   });
 });
 
