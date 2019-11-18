@@ -26,9 +26,11 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.get('/login/:id', (req, res) => {
+app.get('/login/:username', (req, res) => {
   req.session.user_id = req.params.id;
-  res.redirect('/');
+  res
+    .cookie('jwt', req.params.username)
+    .redirect('/');
 });
 
 app.get('/games', (req, res) => {
@@ -62,23 +64,25 @@ app.get('/users', (req, res) => {
 });
 
 // SOCKET LOGIC
+
+// TODO: Authenticate the handshake before allowing a connection
+  // We can also validate the game on handshake before making a connection
+  // Once we know the connection is validated, then we can trust the handshake data
 io.on('connection', (socket) => {
   console.log('a user connected');
+  console.log('handshake query', socket.handshake.query.token);
   
+  socket.join(socket.handshake.query.uuid, () => {
+    console.log('joined' + socket.handshake.query.uuid);
+  });
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
-  
-  // TODO: join needs validation. Game exist? User authorized?
-  socket.on('join', msg => {
-    socket.join(msg.uuid, () => {
-      console.log('joined' + msg.uuid);
-    });
-  });
 
-  socket.on('gsp-button', msg => {
-    console.log('received message from', msg.uuid);
-    io.to(msg.uuid).emit('gsp-button', 'we heard the click');
+  socket.on('gsp-button', () => {
+    console.log('received message from', socket.handshake.query.uuid);
+    io.to(socket.handshake.query.uuid).emit('gsp-button', 'we heard the click');
   });
 });
 
