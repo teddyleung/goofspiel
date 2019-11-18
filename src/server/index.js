@@ -4,6 +4,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const PORT = process.env.PORT || 8080;
 const bodyParser = require('body-parser');
+const cookieSession = require('cookie-session');
 const path = require('path');
 require('dotenv').config()
 const db = require('./db/index');
@@ -13,12 +14,21 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 // MIDDLEWARE
+app.use(cookieSession({
+  name: 'session',
+  secret: process.env.COOKIE_SECRET
+}));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, '../public')));
 
 // PAGE ROUTES
 app.get('/', (req, res) => {
   res.render('index');
+});
+
+app.get('/login/:id', (req, res) => {
+  req.session.user_id = req.params.id;
+  res.redirect('/');
 });
 
 app.get('/games', (req, res) => {
