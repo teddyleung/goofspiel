@@ -1,18 +1,57 @@
 $(() => {
+  const roundWinner = (round, playerPair) => {
+    if (round[playerPair[0]] === null || round[playerPair[1]] === null) {
+      return false;
+    }
+
+    if (round[playerPair[0]] === round[playerPair[1]]) {
+      return null;
+    }
+    
+    return round[playerPair[0]] > round[playerPair[1]] ? playerPair[0] : playerPair[1];
+  };
+  
+  const calcScore = (cards, history, playerPair) => {
+    const score = {
+      [playerPair[0]]: 0,
+      [playerPair[1]]: 0,
+    };
+
+    history.forEach((round, index) => {
+      const winner = roundWinner(round, playerPair);
+      if (winner === null) {
+        const halfScore = cards[index] / 2;
+        score[playerPair[0]] += halfScore;
+        score[playerPair[1]] += halfScore;
+      } else if (winner !== false) {
+        score[winner] += cards[index];
+      }
+    });
+
+    return score;
+  };
+  
   const render = gameState => {
+    // TODO: split up the logic into separate functions. render() is too many lines
+    
     const { cards, players, history } = gameState;
     
     const centerCard = cards[history.length - 1];
     $('#gsp-center-card').text(centerCard);
 
-    const orderedPlayersArray = Object.keys(players).sort((a, b) => {
+    const orderedPlayersPair = Object.keys(players).sort((a, b) => {
       return players[a].order - players[b].order;
     });
 
-    orderedPlayersArray.forEach((player, index) => {
+    const score = calcScore(cards, history, orderedPlayersPair);
+
+    orderedPlayersPair.forEach((player, index) => {
       const playerCard = history[history.length - 1][player];
+      $(`#gsp-player-name-${index + 1}`).text(player);
       $(`#gsp-played-card-${index + 1}`).text(playerCard);
-    })
+      $(`#gsp-score-${index + 1}`).text(score[player]);
+    });
+
 
     // TODO: with real JWT, we need to decode the base64 to actually get the username
     const username = document.cookie.replace(/(?:(?:^|.*;\s*)jwt\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -23,9 +62,7 @@ $(() => {
       } else {
         $(this).addClass('hidden');
       }
-    })
-
-    // TIES
+    });
   };
   
   
