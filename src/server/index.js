@@ -69,7 +69,8 @@ app.get('/users', (req, res) => {
   // Once we know the connection is validated, then we can trust the handshake data
 io.on('connection', (socket) => {
   const uuid = socket.handshake.query.uuid;
-  
+  const username = socket.handshake.query.token;
+
   console.log('a user connected');
   // console.log('handshake query', socket.handshake.query.token);
   
@@ -87,9 +88,41 @@ io.on('connection', (socket) => {
     console.log('user disconnected');
   });
 
-  socket.on('gsp-button', () => {
-    console.log('received message from', uuid);
-    io.to(uuid).emit('gsp-button', 'we heard the click');
+  socket.on('gsp-move', ({card}) => {
+    db.getGame(uuid)
+      .then(game => {
+        //TODO split up this logic
+        const { history, players } = game.game_state;
+        if (players[username].cards.includes(card)
+          && history[history.length - 1][username] === null) {
+          
+          const newGameState = {...game.game_state}
+          
+          newGameState.history[newGameState.history.length - 1][username] = card;
+          
+          if (!Object.values(newGameState.history[newGameState.history.length - 1]).includes(null)) {
+            const playerNames = Object.keys(newGameState.players);
+            newGameState.history.push({
+              [playerNames[0]]: null,
+              [playerNames[1]]: null
+            })
+          }
+          
+          let newCards = [...newGameState.players[username].cards].filter(oldCard => oldCard !== card);
+          newGameState.players[username].cards = newCards;
+          
+          db.updateGameState(uuid, newGameState)
+            .then(newGame => {
+              io.to(uuid).emit('hydrate-state', {
+                gameState: newGame.game_state
+              });
+            });
+        } else {
+          socket.emit('hydrate-state', {
+            gameState: game.game_state
+          });
+        }
+      });
   });
 });
 

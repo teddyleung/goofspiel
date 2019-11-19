@@ -44,6 +44,16 @@ const getGameData = gameUuid => {
     }));
 };
 
+const updateGameState = (gameUuid, game_state) => {
+  return pool.query(`
+    UPDATE games
+      SET game_state = $1
+      WHERE games.uuid = $2
+      RETURNING id, uuid, game_type_id, creator_id, created_at, started_at, completed_at, deleted_at, game_state
+  `, [game_state, gameUuid])
+    .then(game => game.rows[0]);
+};
+
 // TODO: Delete this
 const getAllUsers = () => {
   return pool.query(`
@@ -55,5 +65,6 @@ const getAllUsers = () => {
 module.exports = {
   getAllUsers,
   getGameData,
-  getGame
+  getGame,
+  updateGameState
 }

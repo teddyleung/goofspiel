@@ -95,6 +95,10 @@ $(() => {
 
         const orderedPlayersPair = orderPlayers(localGameState.players);
         renderScore(orderedPlayersPair, localGameState.cards, localGameState.history);
+
+        socket.emit('gsp-move', {
+          card: cardValue
+        });
       }
     });
   });
