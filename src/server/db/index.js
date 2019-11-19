@@ -54,6 +54,41 @@ const updateGameState = (gameUuid, game_state) => {
     .then(game => game.rows[0]);
 };
 
+const shuffle = array => {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
+const suit = [1,2,3,4,5,6,7,8,9,10,11,12,13];
+
+const createGameState = (playerOneUsername) => {
+  return {
+    cards: shuffle([...suit]),
+    history: [{
+      [playerOneUsername]: null
+    }],
+    players: {
+      [playerOneUsername]: {
+        cards: [...suit],
+        order: 1
+      }
+    }
+  };
+};
+
+const addNewGame = (game_file_name, username) => {
+  return pool.query(`
+    INSERT INTO games (game_type_id, creator_id, game_state)
+      VALUES ((SELECT id FROM game_types WHERE file_name = $1),
+        (SELECT id FROM users WHERE username = $2), $3)
+      RETURNING uuid
+  `, [game_file_name, username, createGameState(username)])
+    .then(res => res.rows[0]);
+};
+
 // TODO: Delete this
 const getAllUsers = () => {
   return pool.query(`
@@ -66,5 +101,6 @@ module.exports = {
   getAllUsers,
   getGameData,
   getGame,
-  updateGameState
+  updateGameState,
+  addNewGame
 }

@@ -19,6 +19,7 @@ app.use(cookieSession({
   secret: process.env.COOKIE_SECRET
 }));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.json())
 app.use(express.static(path.join(__dirname, '../public')));
 
 // PAGE ROUTES
@@ -37,6 +38,10 @@ app.get('/games', (req, res) => {
   res.render('games');
 });
 
+app.get('/games/new', (req, res) => {
+  res.render('games_new');
+});
+
 app.get('/games/:uuid', (req, res) => {
   db.getGameData(req.params.uuid)
     .then(data => {
@@ -53,6 +58,13 @@ app.get('/games/:uuid', (req, res) => {
       });
     });
 });
+
+app.post('/games', (req, res) => {
+  db.addNewGame(req.body.game_type, req.body.username)
+    .then(game => {
+      res.json({ uuid: game.uuid });
+    })
+})
 
 // TODO: Delete this route when done
 app.get('/users', (req, res) => {
