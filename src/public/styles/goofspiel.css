@@ -2,6 +2,8 @@
   position: relative;
   width: 640px;
   height: 360px;
+  background-image: url("/images/jungle-4.png"), url("/images/jungle-3.png"), url("/images/jungle-2.png"), url("/images/jungle-1.png");
+  background-size: cover;
 }
 
 .gsp-background-container {
