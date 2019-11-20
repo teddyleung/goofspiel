@@ -41,7 +41,7 @@
   font-size: 16px;
 }
 
-.gsp-player-card {
+.gsp-card {
   background-color: #fff;
   border: solid 3px #615050;
   color:#615050; 
@@ -53,4 +53,27 @@
   align-items: center;
   padding-top: 3px;
   cursor: pointer;
+}
+
+.gsp-card.hidden {
+  display: none;
+}
+
+.gsp-card__played {
+  width: 100%;
+}
+
+#gsp-center-container {
+  position: absolute;
+  background-color: red;
+  height: 15%;
+  width: 100%;
+  top: 40%;
+  display: flex;
+  justify-content: center;
+}
+
+.gsp-center-player-col {
+  height: 100%;
+  width: 7%;
 }

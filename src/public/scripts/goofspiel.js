@@ -79,6 +79,10 @@ $(() => {
     const userCards = players[username].cards
     renderPlayerCards(userCards);
   };
+
+  const renderDefault = gameState => {
+    $('.gsp-player-card').removeClass('hidden');
+  }
   
   $('.gsp-player-card').each(function() {
     $(this).click(() => {
@@ -113,6 +117,10 @@ $(() => {
     console.log(data);
     localGameState = data.gameState;
     // TODO only render game state if there are two players. Otherwise, render default renderDefault()
-    render(data.gameState);
+    if (Object.keys(data.gameState.players).length < 2) {
+      renderDefault(data.gameState);
+    } else {
+      render(data.gameState);
+    }
   });
 });
