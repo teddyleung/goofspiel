@@ -93,6 +93,20 @@ const addNewGame = (game_file_name, username) => {
     .then(res => res.rows[0]);
 };
 
+const addUserToGame = (gameUuid, game_state, username, gameStartBool) => {
+  return pool.query(`
+    WITH updated_game AS (
+      UPDATE games
+        SET game_state = $1${gameStartBool ? ', started_at = NOW()' : ''}
+        WHERE games.uuid = $2
+        RETURNING id, game_state
+    ) INSERT INTO user_games (user_id, game_id)
+      VALUES ((SELECT id FROM users WHERE username = $3), (SELECT id FROM updated_game))
+        RETURNING (SELECT game_state FROM updated_game)
+  `, [game_state, gameUuid, username])
+    .then(game => game.rows[0]);
+};
+
 // TODO: Delete this
 const getAllUsers = () => {
   return pool.query(`
@@ -106,5 +120,6 @@ module.exports = {
   getGameData,
   getGame,
   updateGameState,
-  addNewGame
+  addNewGame,
+  addUserToGame
 }
