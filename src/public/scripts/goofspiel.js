@@ -1,6 +1,6 @@
 $(() => {
   let localGameState = null;
-  const START_SCORE = 45;
+  const WIN_SCORE = 45;
 
   // TODO: with real JWT, we need to decode the base64 to actually get the username
   const username = document.cookie.replace(/(?:(?:^|.*;\s*)jwt\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -51,8 +51,28 @@ $(() => {
     const score = calcScore(cards, history, orderedPlayersPair);
 
     orderedPlayersPair.forEach((player, index) => {
-      $(`#gsp-score-${index + 1}`).text(START_SCORE - score[player]);
+      $(`#gsp-score-${index + 1}`).text(WIN_SCORE - score[player]);
     });
+  };
+
+  const renderWinner = (orderedPlayersPair, cards, history) => {
+    const score = calcScore(cards, history, orderedPlayersPair);
+
+    if (score[orderedPlayersPair[0]] >= WIN_SCORE && score[orderedPlayersPair[1]] >= WIN_SCORE) {
+      $('#gsp-winner-banner').text('You Tie!');
+    } else if (score[orderedPlayersPair[0]] >= WIN_SCORE) {
+      $('#gsp-winner-banner').text(orderedPlayersPair[0] === username ? 'You Win!' : 'You Lose!');
+    } else if (score[orderedPlayersPair[1]] >= WIN_SCORE) {
+      $('#gsp-winner-banner').text(orderedPlayersPair[1] === username ? 'You Win!' : 'You Lose!');
+    } else {
+      return;
+    }
+
+    // set color to your color
+    const color = orderedPlayersPair[0] === username ? 'blue' : 'red';
+    $('#gsp-winner-banner').addClass(`gsp-text-box__${color}`);
+    //unhide
+    $('#gsp-winner-banner-modal').removeClass('hidden');
   };
 
   const orderPlayers = players => Object.keys(players).sort((a, b) => {
@@ -76,6 +96,7 @@ $(() => {
     });
 
     renderScore(orderedPlayersPair, cards, history);
+    renderWinner(orderedPlayersPair, cards, history);
 
     const userCards = players[username].cards
     renderPlayerCards(userCards);
@@ -110,6 +131,7 @@ $(() => {
 
         const orderedPlayersPair = orderPlayers(localGameState.players);
         renderScore(orderedPlayersPair, localGameState.cards, localGameState.history);
+        renderWinner(orderedPlayersPair, localGameState.cards, localGameState.history);
 
         socket.emit('gsp-move', {
           card: cardValue
