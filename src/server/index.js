@@ -27,6 +27,7 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
+//TODO do front end validation to ensure user name is 6 characters or less
 app.get('/login/:username', (req, res) => {
   req.session.name = req.params.username;
   res
