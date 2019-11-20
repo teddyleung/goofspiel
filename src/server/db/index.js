@@ -81,10 +81,13 @@ const createGameState = (playerOneUsername) => {
 
 const addNewGame = (game_file_name, username) => {
   return pool.query(`
-    INSERT INTO games (game_type_id, creator_id, game_state)
-      VALUES ((SELECT id FROM game_types WHERE file_name = $1),
-        (SELECT id FROM users WHERE username = $2), $3)
-      RETURNING uuid
+    WITH new_game AS (
+      INSERT INTO games (game_type_id, creator_id, game_state)
+        VALUES ((SELECT id FROM game_types WHERE file_name = $1),
+          (SELECT id FROM users WHERE username = $2), $3)
+          RETURNING games.id
+    ) INSERT INTO user_games (user_id, game_id)
+      VALUES ((SELECT id FROM users WHERE username = $2), (SELECT id FROM new_game))
   `, [game_file_name, username, createGameState(username)])
     .then(res => res.rows[0]);
 };
