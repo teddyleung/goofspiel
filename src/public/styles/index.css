@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "8-bit";
+  src: url("/fonts/8-bit.ttf");
+}
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
