@@ -64,7 +64,7 @@ const shuffle = array => {
 
 const suit = [1,2,3,4,5,6,7,8,9,10,11,12,13];
 
-const createGameState = (playerOneUsername) => {
+const createGameState = playerOneUsername => {
   return {
     cards: shuffle([...suit]),
     history: [{
@@ -77,6 +77,16 @@ const createGameState = (playerOneUsername) => {
       }
     }
   };
+};
+
+const addPlayerToGameState = (currentGameState, username) => {
+  const newGameState = {...currentGameState};
+  newGameState.history[0][username] = null;
+  newGameState.players[username] = {
+    cards: [...suit],
+    order: Object.keys(currentGameState.players).length + 1
+  };
+  return newGameState;
 };
 
 const addNewGame = (game_file_name, username) => {
@@ -99,11 +109,11 @@ const addUserToGame = (gameUuid, game_state, username, gameStartBool) => {
       UPDATE games
         SET game_state = $1${gameStartBool ? ', started_at = NOW()' : ''}
         WHERE games.uuid = $2
-        RETURNING id, game_state
+        RETURNING id, uuid
     ) INSERT INTO user_games (user_id, game_id)
       VALUES ((SELECT id FROM users WHERE username = $3), (SELECT id FROM updated_game))
-        RETURNING (SELECT game_state FROM updated_game)
-  `, [game_state, gameUuid, username])
+        RETURNING (SELECT uuid FROM updated_game)
+  `, [addPlayerToGameState(game_state, username), gameUuid, username])
     .then(game => game.rows[0]);
 };
 

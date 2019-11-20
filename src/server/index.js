@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login/:username', (req, res) => {
-  req.session.user_id = req.params.id;
+  req.session.name = req.params.username;
   res
     .cookie('jwt', req.params.username)
     .redirect('/');
@@ -60,11 +60,28 @@ app.get('/games/:uuid', (req, res) => {
 });
 
 app.post('/games', (req, res) => {
-  db.addNewGame(req.body.game_type, req.body.username)
+  db.addNewGame(req.body.game_type, req.session.name)
     .then(game => {
       res.json({ uuid: game.uuid });
-    })
-})
+    });
+});
+
+app.put('/games/:uuid', (req, res) => {
+  db.getGameData(req.params.uuid)
+    .then(game => {
+      const withinPlayerMax = game.users.length <= game.player_max;
+      const notPlayer = !game.users.find(user => user.username === req.session.name);
+      if (!game.started_at && !game.deleted_at && withinPlayerMax && notPlayer) {
+        const startGame = (game.users.length + 1) === game.player_max;
+        db.addUserToGame(req.params.uuid, game.game_state, req.session.name, startGame)
+          .then(game => {
+            res.json({ uuid: game.uuid });
+          });
+      } else {
+        res.send('Could not join game'); 
+      }
+    });
+});
 
 // TODO: Delete this route when done
 app.get('/users', (req, res) => {
@@ -89,7 +106,7 @@ io.on('connection', (socket) => {
   socket.join(uuid, () => {
     db.getGame(uuid)
       .then(game => {
-        socket.emit('hydrate-state', {
+        io.to(uuid).emit('hydrate-state', {
           gameState: game.game_state
         });
       })
