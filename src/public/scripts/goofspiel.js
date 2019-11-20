@@ -83,6 +83,12 @@ $(() => {
   $('.gsp-player-card').each(function() {
     $(this).click(() => {
       const history = localGameState.history;
+      
+      if (Object.keys(localGameState.players).length < 2) {
+        console.log('clicked but no second player');
+        return;
+      }
+
       if (history[history.length - 1][username] === null) {
         const cardValue = $(this).data('cardValue');
         
@@ -106,6 +112,7 @@ $(() => {
   socket.on('hydrate-state', data => {
     console.log(data);
     localGameState = data.gameState;
+    // TODO only render game state if there are two players. Otherwise, render default renderDefault()
     render(data.gameState);
   });
 });
