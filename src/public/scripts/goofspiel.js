@@ -83,6 +83,10 @@ $(() => {
 
   const renderDefault = gameState => {
     $('.gsp-player-card').removeClass('hidden');
+    $('#gsp-gameboard').addClass('gsp-not-started');
+    $('#gsp-player-name-1').text(Object.keys(gameState.players)[0]);
+    $('#gsp-player-name-2').text('Waiting');
+    $('.gsp-player-score').text(45);
   }
   
   $('.gsp-player-card').each(function() {
@@ -121,6 +125,7 @@ $(() => {
     if (Object.keys(data.gameState.players).length < 2) {
       renderDefault(data.gameState);
     } else {
+      $('#gsp-gameboard').removeClass('gsp-not-started');
       render(data.gameState);
     }
   });

@@ -1,6 +1,6 @@
 /* TODO: Search for px - we don't want fixed sizes. Only % of container */
 
-.gsp-gameboard {
+#gsp-gameboard {
   position: relative;
   width: 640px;
   height: 360px;
@@ -72,6 +72,10 @@
   justify-content: center;
 }
 
+#gsp-center-container .gsp-card {
+  cursor: auto;
+}
+
 .gsp-center-player-col {
   position: relative;
   height: 100%;
@@ -94,9 +98,9 @@
   left: 50%;
   transform: translateX(-50%);
   font-size: 1.3rem;
-  width: 3.8rem;
+  min-width: 3.8rem;
   text-align: center;
-  padding: 0.6rem 0 0.2rem 0;
+  padding: 0.6rem 0.3rem 0.2rem 0.5rem;
 }
 
 .gsp-text-box {
@@ -109,4 +113,13 @@
 
 .gsp-text-box__red {
   background-color: #AC2104;
+}
+
+/* Not started default styling */
+.gsp-not-started .gsp-text-box__red {
+  background-color: #26272D;
+}
+
+.gsp-not-started #gsp-center-container .gsp-card {
+  background-color: #615050;
 }
