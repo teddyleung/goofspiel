@@ -1,5 +1,6 @@
 $(() => {
   let localGameState = null;
+  const START_SCORE = 45;
 
   // TODO: with real JWT, we need to decode the base64 to actually get the username
   const username = document.cookie.replace(/(?:(?:^|.*;\s*)jwt\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -50,7 +51,7 @@ $(() => {
     const score = calcScore(cards, history, orderedPlayersPair);
 
     orderedPlayersPair.forEach((player, index) => {
-      $(`#gsp-score-${index + 1}`).text(score[player]);
+      $(`#gsp-score-${index + 1}`).text(START_SCORE - score[player]);
     });
   };
 
