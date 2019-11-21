@@ -34,7 +34,6 @@ module.exports = function(router, db) {
     const newUser = req.body;
     db.getUserByName(newUser.username)
       .then(user => {
-        console.log("get user?",user);
         if (!user) {
           newUser.password = bcrypt.hashSync(newUser.password, 12);
           db.addNewUser(newUser)
@@ -45,8 +44,9 @@ module.exports = function(router, db) {
             })
             .catch(e => res.send(e));
         } else {
-          console.log("failed to create user.");
-          res.status(200).send({user: newUser.username});
+          console.log("Already exists, failed to create user.");
+          res.redirect(`/`);
+          // res.status(200).send({user: newUser.username});
         }
       })
       .catch(e => res.send(e));
@@ -54,7 +54,11 @@ module.exports = function(router, db) {
 
   router.get('/', (req, res) => {
     if (!req.session.name) {
-      res.render(`login`, {"accountName": req.session.name});
+      if (req.query["form"]) {
+        res.render(`login`, {"loginType": req.query["form"], "accountName": req.session.name});
+      } else {
+        res.render(`login`, {"loginType": 'login', "accountName": req.session.name});
+      }
     } else {
       res.redirect('/room');
     }
@@ -93,8 +97,6 @@ module.exports = function(router, db) {
         return;
       })
       .catch(e => res.send(e));
-
-    console.log('get request to join games,');
   });
 
   router.get("/room", (req, res) => {
@@ -112,8 +114,6 @@ module.exports = function(router, db) {
         return;
       })
       .catch(e => res.send(e));
-
-    console.log('get request to my games room');
   });
    
   router.get("/leaderboard", (req, res) => {
@@ -129,8 +129,6 @@ module.exports = function(router, db) {
         return;
       })
       .catch(e => res.send(e));
-
-    console.log('get request to my games room');
   });
 
   router.get('/archives', (req, res) => {
@@ -158,6 +156,5 @@ module.exports = function(router, db) {
         .catch(e => res.send(e));
     }
   });
-  
 };
 

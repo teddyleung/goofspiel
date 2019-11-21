@@ -63,6 +63,12 @@
           $('#signup').addClass('type-select');
           $("#login").removeClass('type-select');
         });
+
+        if(`<%= loginType %>` === 'signup') {
+            $('#signup').click();
+        } else {
+            $('#login').click();
+        }
       });
 
   </script>
