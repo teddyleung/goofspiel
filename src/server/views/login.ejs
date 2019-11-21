@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/styles/nav.css" type="text/css" />   
+    <link rel="stylesheet" href="/styles/common.css" type="text/css" />  
+    <link rel="stylesheet" href="/styles/login.css" type="text/css" />   
+    <title>Card Games</title>  
+</script>
+
+</head>
+
+<body>
+
+  <% include ./partials/nav.ejs %> 
+  <div class='login'>
+    <h3>Account</h3>
+    <form id="login-form" name="users" action="/login" method="POST">
+
+        <div class="line-align"> <label class='label-align' for="username">username:</label>
+          <input class='text-input' type="text" name="username" required placeholder="Your Username"> 
+        </div>
+
+        <div class='line-align'> <label='label-align' for="password">password:</label> 
+          <input class='text-input' type="password" name="password" id="password" required placeholder="Your Password">
+        </div>
+        <div class='line-align'> 
+          <button type="button" class='button button-primary' onclick="login()">Login</button> 
+          <button type="button" class='button button-primary' onclick="signup()">Signup</button> 
+        </div>
+        
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>    
+
+  <script>
+
+    function login(){ 
+        document.users.action="/login";
+        document.users.submit();
+    }
+
+    function signup(){
+        document.users.action="/signup";
+        document.users.submit();
+    }
+  
+  </script>
+
+</body>
+
+</html>

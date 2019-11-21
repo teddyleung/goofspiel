@@ -39,3 +39,14 @@ CREATE TABLE user_games (
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   game_id INTEGER REFERENCES games(id) ON DELETE CASCADE
 );
+
+CREATE TABLE winners (
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  game_id INTEGER REFERENCES games(id) ON DELETE CASCADE,
+  winners_num INTEGER
+);
+
+
+
+
