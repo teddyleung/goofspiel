@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 8080;
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const path = require('path');
-require('dotenv').config()
+require('dotenv').config();
 const db = require('./db/index');
 const goofspiel = require('../games/goofspiel');
 
@@ -23,10 +23,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json())
 app.use(express.static(path.join(__dirname, '../public')));
 
-// PAGE ROUTES
-app.get('/', (req, res) => {
-  res.render('index');
-});
+// APP ROUTES
+const appRoutes = require('./routes/routes');
+const expRoutes = express.Router();
+const database = require('./db/index');
+appRoutes(expRoutes, database);
+app.use('/', expRoutes);
 
 //TODO do front end validation to ensure user name is 6 characters or less
 app.get('/login/:username', (req, res) => {
@@ -51,7 +53,7 @@ app.get('/games/:uuid', (req, res) => {
         return res.redirect('/games');
       }
       // TODO validate user
-        // If not started, proceed regardless of user. If started but not a player, redirect to /games
+      // If not started, proceed regardless of user. If started but not a player, redirect to /games
 
       res.render('game', {
         file_name: data.file_name,
@@ -96,8 +98,8 @@ app.get('/users', (req, res) => {
 // SOCKET LOGIC
 
 // TODO: Authenticate the handshake before allowing a connection
-  // We can also validate the game on handshake before making a connection
-  // Once we know the connection is validated, then we can trust the handshake data
+// We can also validate the game on handshake before making a connection
+// Once we know the connection is validated, then we can trust the handshake data
 io.on('connection', (socket) => {
   const uuid = socket.handshake.query.uuid;
   const username = socket.handshake.query.token;
