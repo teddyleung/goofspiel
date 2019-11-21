@@ -8,6 +8,7 @@ const cookieSession = require('cookie-session');
 const path = require('path');
 require('dotenv').config()
 const db = require('./db/index');
+const goofspiel = require('../games/goofspiel');
 
 // TEMPLATING
 app.set('views', __dirname + '/views');
@@ -141,12 +142,23 @@ io.on('connection', (socket) => {
           let newCards = [...newGameState.players[username].cards].filter(oldCard => oldCard !== card);
           newGameState.players[username].cards = newCards;
           
-          db.updateGameState(uuid, newGameState)
-            .then(newGame => {
-              io.to(uuid).emit('hydrate-state', {
-                gameState: newGame.game_state
+          const winners = goofspiel.getWinners(newGameState);
+          
+          if (winners.length > 0) {
+            db.updateGameAndCreateWinner(uuid, newGameState, winners)
+              .then(newGame => {
+                io.to(uuid).emit('hydrate-state', {
+                  gameState: newGame.game_state
+                });
+              })
+          } else {
+            db.updateGameState(uuid, newGameState)
+              .then(newGame => {
+                io.to(uuid).emit('hydrate-state', {
+                  gameState: newGame.game_state
+                });
               });
-            });
+          }
         } else {
           socket.emit('hydrate-state', {
             gameState: game.game_state

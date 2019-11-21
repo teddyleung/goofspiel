@@ -54,6 +54,27 @@ const updateGameState = (gameUuid, game_state) => {
     .then(game => game.rows[0]);
 };
 
+const updateGameAndCreateWinner = (gameUuid, game_state, winnerUsernamesArray) => {
+  const winnersLength = winnerUsernamesArray.length;
+  const psqlVarsStart = 3;
+  
+  const winnersInsertValues = winnerUsernamesArray.map((winner, index) => {
+    return `((SELECT id FROM users WHERE username = $${psqlVarsStart + index}), (SELECT id FROM updated_game), ${winnersLength})`
+  }).join(', ');
+  
+  return pool.query(`
+    WITH updated_game AS (  
+      UPDATE games
+        SET game_state = $1, completed_at = NOW()
+        WHERE games.uuid = $2
+        RETURNING id, uuid, game_type_id, creator_id, created_at, started_at, completed_at, deleted_at, game_state
+    ) INSERT INTO winners (user_id, game_id, winners_num)
+      VALUES ${winnersInsertValues}
+        RETURNING (SELECT game_state FROM updated_game)
+  `, [game_state, gameUuid, ...winnerUsernamesArray])
+    .then(game => game.rows[0]);
+};
+
 const shuffle = array => {
   for (let i = array.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
@@ -131,5 +152,6 @@ module.exports = {
   getGame,
   updateGameState,
   addNewGame,
-  addUserToGame
+  addUserToGame,
+  updateGameAndCreateWinner
 }
