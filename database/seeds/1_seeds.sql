@@ -1,8 +1,25 @@
 INSERT INTO users (username, password)
-  VALUES ('Alice', 'password'),
-    ('Bob', 'password'),
-    ('Chris', 'password'),
-    ('David', 'password');
+  VALUES
+ ('Alice',  '$2b$12$O.ZfQJUWNyfkxeRtYxwYO.ZSd6CBqOyVpPKYVYHp9xR1J/fO4eocK'),
+ ('Teddy',  '$2b$12$JkvbIL/gOqnbRJcLEtZoDOdODeZwINInGDW/VRLVtuWYKaPqDQFb6'),
+ ('Ryan',   '$2b$12$F/cJgBLAT1Z9ZGTIQglXhu0csrwOY9xHiXBhfT3sN9j23oJY4JkT.'),
+ ('Praneeth', '$2b$12$WA18knautZVLObFnQHZYWOxMQeB3y.8POV2R6WdZw3kohujlfL6me'),
+ ('Chengwen', '$2b$12$XBUcuO6qlCKmRiTSvo.n9.B.pCGmJQoZT4kec0DfQ7xbn7CBcBZLO');
+
+
+INSERT INTO game_types (name, file_name, player_min, player_max)
+  VALUES ('Goofspiel', 'goofspiel', 2, 2),
+    ('Cards Against Everything', 'cards_against_everything', 3, 6);
+
+INSERT INTO games (game_type_id, creator_id, created_at, started_at, completed_at,  deleted_at,  game_state)
+   VALUES (1, 1, '2019-11-15 15:30:15', '2019-11-15 15:30:20', '2019-11-15 15:40:20', NULL, NULL),
+	(1, 2, '2019-11-15 16:30:15', '2019-11-15 16:30:20', '2019-11-15 16:45:20', NULL, NULL),
+	(1, 1, '2019-11-15 16:40:15', '2019-11-15 16:45:20', NULL, NULL, NULL),
+	(2, 2, '2019-11-15 17:40:15', NULL, NULL, NULL, NULL);
+
+INSERT INTO user_games (user_id, game_id)
+	VALUES (1, 1), 	(2,1), (1, 2), (3, 2), (3, 3), (2, 3), (1, 4);
+
 
 INSERT INTO games (game_type_id, creator_id, created_at, started_at, completed_at,  deleted_at,  game_state)
    VALUES 
@@ -15,23 +32,23 @@ INSERT INTO games (game_type_id, creator_id, created_at, started_at, completed_a
 (1, 1, '2019-11-16 18:40:15', NULL, NULL, '2019-11-16 18:40:15', NULL),
 (1, 1, '2019-11-16 18:40:25', NULL, NULL, '2019-11-16 18:40:15', NULL);
 
-INSERT INTO user_games ( user_id, game_id)
+INSERT INTO user_games (user_id, game_id)
 	VALUES (1, 1), 	(2,1), (2, 2), (3, 2), (1, 3), (2, 3), (2, 4), (1, 4), (3, 4), (3, 5), (4, 6),
                (1,7),  (2,7),  (1,8);
 
 INSERT INTO games (game_type_id, creator_id, created_at, started_at, completed_at,  deleted_at,  game_state)
    VALUES (1, 3, '2019-11-17 15:40:25', NULL, NULL, NULL, NULL),
-	(1, 3, '2019-11-17 15:50:25', NULL, NULL, NULL, NULL),10
-	(2, 3, '2019-11-17 18:40:25', NULL, NULL, NULL, NULL),11
-	(1, 3, '2019-11-17 18:50:25', NULL, NULL, NULL, NULL),12
-	(1, 4, '2019-11-17 18:40:25', NULL, NULL, NULL, NULL),13
-	(1, 4, '2019-11-17 18:40:25', NULL, NULL, NULL, NULL),14
-	(2, 4, '2019-11-17 18:40:25', NULL, NULL, NULL, NULL),15
-	(2, 4, '2019-11-17 18:40:25', NULL, NULL, NULL, NULL),16
-	(1, 5, '2019-11-17 18:40:25', NULL, NULL, NULL, NULL),17
-	(2, 5, '2019-11-17 18:40:25', NULL, NULL, NULL, NULL);18
+	(1, 3, '2019-11-17 15:50:25', NULL, NULL, NULL, NULL),
+	(2, 3, '2019-11-17 18:40:25', NULL, NULL, NULL, NULL),
+	(1, 3, '2019-11-17 18:50:25', NULL, NULL, NULL, NULL),
+	(1, 4, '2019-11-17 18:40:25', NULL, NULL, NULL, NULL),
+	(1, 4, '2019-11-17 18:40:25', NULL, NULL, NULL, NULL),
+	(2, 4, '2019-11-17 18:40:25', NULL, NULL, NULL, NULL),
+	(2, 4, '2019-11-17 18:40:25', NULL, NULL, NULL, NULL),
+	(1, 5, '2019-11-17 18:40:25', NULL, NULL, NULL, NULL),
+	(2, 5, '2019-11-17 18:40:25', NULL, NULL, NULL, NULL);
 
-INSERT INTO user_games ( user_id, game_id)
+INSERT INTO user_games (user_id, game_id)
 	VALUES (3, 9), 	(3,10), (3, 11), (3, 12), (4, 13), (4, 14), (4, 15), (4, 16), (5, 17), (5, 18);
 
 INSERT INTO games (game_type_id, creator_id, created_at, started_at, completed_at,  deleted_at,  game_state)
@@ -45,13 +62,13 @@ INSERT INTO games (game_type_id, creator_id, created_at, started_at, completed_a
 (2, 5, '2019-11-20 10:40:25', '2019-11-20 10:55:25', '2019-11-20 10:58:25', NULL, NULL);
 
 
-INSERT INTO user_games ( user_id, game_id)
+INSERT INTO user_games (user_id, game_id)
 	VALUES (1, 19), (2, 19), (2, 20),  (3, 20),  (3, 21),  (4, 21),  (3, 22),  (5, 22),  (4, 23),  (5, 23), 
 	(4, 24), (3, 24), (2, 24),
 	(5, 25), (3, 25), (2, 25), (1, 25),	
 	(5, 26), (1, 26), (3, 26);
 
-INSERT INTO winners ( user_id, game_id, winners_num)
+INSERT INTO winners (user_id, game_id, winners_num)
 	VALUES (1, 1, 1), (3, 2, 1), (1, 19, 1), (2, 20, 1), (3, 21, 1), (3, 22, 2), (5, 22, 2), (4, 23, 1),
   	(3, 24, 1),  
 	(1, 25, 4), (2, 25, 4), (3, 25, 4), (5, 25, 4),
