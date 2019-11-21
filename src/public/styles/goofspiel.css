@@ -140,6 +140,10 @@
   background-color: #AC2104;
 }
 
+.gsp-text-box__gold {
+  background-color: #e1b12c;
+}
+
 #gsp-sprite-container {
   position: absolute;
   width: 90%;
@@ -165,6 +169,17 @@
 .gsp-sprite-treasure {
   height: 70%;
   right: 1%;
+}
+
+#gsp-next-round {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.8rem;
+  padding: 0.3rem 0.3rem 0.1rem 0.5rem;
+  bottom: 1.5%;
+  cursor: pointer;
+  z-index: 200;
 }
 
 /* Not started default styling */
