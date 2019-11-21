@@ -1,34 +1,25 @@
-<nav class='nav-header'>
-
+<nav class='nav-header container'>
   <div class='left-header'>
-    <div>Logo</div>
-    <div><a href="/games/new" class='no-underline'>Start Game</a></div>
-    <div><a href="/games" class='no-underline'>Join Game</a></div>
-    <div><a href="/room" class='no-underline'>My Games</a></div>
-    <div><a href="/leaderboard" class='no-underline'>Leaderboard</a></div>
-    <div><a href="/archives/<%= accountName %>" class='no-underline'>Archives</a></div>
+    <div class="nav-logo">Logo</div>
+    <div class='left-header-links'>
+      <div data-path="/games/new"><a href="/games/new">Start Game</a></div>
+      <div data-path="/games"><a href="/games">Join Game</a></div>
+      <div data-path="/room"><a href="/room">My Games</a></div>
+      <div data-path="/leaderboard"><a href="/leaderboard">Leaderboard</a></div>
+      <div data-path="/archives"><a href="/archives/<%= accountName %>">Archives</a></div>
+    </div>
   </div>
-
-  <div class='right-header'>      
-   
+  <div class='right-header'>
     <% if(!accountName) { %>
-
-      <form id="login-form" name="account" action="/login" method="GET">
-          <input type="submit" id='account' class='button button-primary' value='Login'>
-      </form>
-
+      <a href="/"><button class='button button-secondary mr-1'>Log In</button></a>
+      <a href="/"><button class='button button-primary'>Sign Up</button></a>
     <% } else { %>
-      
-      <p class='name-tag'> <%= accountName %> </p>
-
+      <p class='nav-name-tag brand-color'>Hi, <%= accountName %>!</p>
       <form id="login-form" name="account" action="/logout" method="POST">
         <div class='login-in'>          
-          <input type="submit" id='account' class='button button-primary' value='Logout'>
+          <input type="submit" id='account' class='button button-secondary' value='Log Out'>
         </div>
       </form>
-
     <% } %>
-
   </div>
-
 </nav>

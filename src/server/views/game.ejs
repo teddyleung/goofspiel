@@ -8,13 +8,12 @@
     <link href="/styles/<%= file_name %>.css" rel="stylesheet">
   </head>
   <body>
-    <h1>Game</h1>
-    <button id='button'>Play</button>
-    <section>
-      <div><%= uuid %></div>
-      <div><%= JSON.stringify(users) %></div>
-    </section>
-    <%- include(`partials/_${file_name}`) %>
+    <%- include partials/nav.ejs %>
+    <div class="container">
+      <div class="game-container">
+        <%- include(`partials/_${file_name}`) %>
+      </div>
+    </div>
     <script
       src="https://code.jquery.com/jquery-3.4.1.min.js"
       integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="

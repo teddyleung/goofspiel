@@ -9,7 +9,9 @@ module.exports = function(router, db) {
       .then(user => {
         if (bcrypt.compareSync(password, user.password)) {
           req.session.name = user.username;
-          res.redirect(`/room`);
+          res
+            .cookie('jwt', user.username)
+            .redirect(`/room`);
           return;
         } else {
           console.log("Bad username or password, cannot login!", username, password);
@@ -40,7 +42,9 @@ module.exports = function(router, db) {
           db.addNewUser(newUser)
             .then(user => {
               req.session.name = user.username;
-              res.redirect(`/room`);
+              res
+                .cookie('jwt', user.username)
+                .redirect(`/room`);
               return;
             })
             .catch(e => res.send(e));

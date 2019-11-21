@@ -3,30 +3,32 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="/styles/nav.css" type="text/css" />   
-    <link rel="stylesheet" href="/styles/common.css" type="text/css" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" href="/styles/index.css" type="text/css" /> 
     <title>Card Games</title>          
 </head>
 
 <body>
 
   <% include ./partials/nav.ejs %> 
-
+  <div class="container">
     <h1>Archives</h1>  
 
     <div class='tile-container-leaderbox'>       
+      <div class="tile-leaderboard"> 
+        <h3 style='text-align: center;' class='tile-title'><%= accountName %>'s Games</h3>
 
-        <div class="tile-leaderboard"> 
-          <h3 style='text-align: center;' class='tile-title'><%= accountName %>'s Games</h>
+        <% completedGames.forEach( (game, index) => { %>
+          <p> <%= index + 1 %> <%= game.name %> <%= game.completed_at %>, <%= game.players %>, <%= game.winners %></p>
+        <% }) %> 
 
-          <% completedGames.forEach( (game, index) => { %>
-            <p> <%= index + 1 %> <%= game.name %> <%= game.completed_at %>, <%= game.players %>, <%= game.winners %></p>
-          <% }) %> 
-
-        </div>    
-
+      </div> 
+    </div> 
+  </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script>
+      $('.nav-header [data-path="/archives"]').addClass("nav-link-active");
+    </script>
 </body>
 
 </html>
