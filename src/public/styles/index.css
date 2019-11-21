@@ -1,6 +1,17 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+
 @font-face {
   font-family: "8-bit";
   src: url("/fonts/8-bit.ttf");
+}
+
+:root {
+  --main-bg-color: #f7f7f8;
+  --primary-color: #9147ff;
+  --nav-link-color: #0e0e10;
+  --primary-color-active: #772ce8;
+  --secondary-color: rgba(0,0,0,0.1);
+  --secondary-color-active: rgba(0,0,0,0.15);
 }
 
 html {
@@ -12,9 +23,234 @@ html {
 }
 
 body {
+  background-color: var(--main-bg-color);;  
   font-size: 1.6rem;
+  font-family: 'Roboto', sans-serif;
+  position: relative;
+  top: 50px;
+  margin: 0;
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* ---------- LAYOUT ---------- */
+
+
+/* ---------- COMPONENTS ---------- */
+.nav-header {
+  background-color: #fff;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  height: 50px;
+  font-weight: 400;
+  font-size: 1.4rem;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15), 0 0px 2px rgba(0,0,0,0.1);
+  color: var(--nav-link-color);
+}
+
+.nav-header .left-header {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.nav-header .left-header-links {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.nav-header .left-header-links > div {
+  padding: 0 1rem;
+  height: 100%;
+}
+
+.nav-header .left-header-links > div a {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.nav-header .right-header {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link-active a {
+  color: var(--primary-color-active);
+  border-top: 2px solid #fff;
+  border-bottom: 2px solid var(--primary-color-active);
+}
+
+.nav-logo {
+  margin-right: 1rem;
+}
+
+.nav-name-tag {
+  margin-right: 1rem;
+}
+
+.button {
+  border-radius: 4px;
+  height: 3rem;
+  font-weight: 700;
+  font-size: 1.2rem;
+  padding: 5px;
+  white-space: nowrap;
+  border: none;
+  vertical-align: middle;
+  text-align: center;
+  padding: 0 1rem;
+  cursor: pointer;
+}
+
+.button-primary {
+  background-color: var(--primary-color);
+  color: white
+}
+
+.button-primary:hover {
+  background-color: var(--primary-color-active);
+}
+
+.button-secondary {
+  background-color: var(--secondary-color);
+  color: var(--nav-link-color);
+}
+
+.button-secondary:hover {
+  background-color: var(--secondary-color-active);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.game-types {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.game-name {
+  padding-bottom: 20px;
+  margin-right: 20px;
+  font-weight: 700;
+  font-size: 1.3em;
+}
+
+.type-select {
+  color: #9147ff;
+  border-bottom: 2px solid #9147ff;
+}
+
+.tile-container {
+  display: flex;
+  flex-wrap: wrap;  
+}
+
+.tile {
+  border-radius: 10px;
+  border: solid 1px gray;
+  margin-top: 15px;
+  margin-right: 24px;
+  margin-bottom: 15px;  
+  background-color: white;
+
+  padding: 10px;
+  padding-top: 0px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  /* vertical-align: center; */
+}
+
+.tile-title {
+  font-weight: 700;
+  margin-bottom: 0px;
+}
+
+.tile-container-leaderbox {
+  display: flex;
+  justify-content: space-between; 
+  padding-left: 20%;
+  padding-right: 20%;
+}
+
+.tile-leaderboard {
+  width: 40%;
+  height: 80%;
+
+  border-radius: 10px;
+  border: solid 10px goldenrod;
+  margin-top: 15px;
+  margin-right: 24px;
+  margin-bottom: 15px;  
+  background-color: white;
+
+  padding: 10px;
+  padding-top: 0px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tile-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* ---------- UTILITIES ---------- */
 
 .hidden {
   display: none;
+}
+
+.mr-1 {
+  margin-right: 1rem;
+}
+
+.brand-color {
+  color: var(--primary-color);
+}
+
+.bold {
+  font-weight: 600;
 }
