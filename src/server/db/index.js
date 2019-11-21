@@ -297,7 +297,7 @@ module.exports = {
   getMyGamesList, //DONE
   getOpenGames, //DONE
   getLeaderBoardStat, //DONE
-  getMyCompletedGames //DONE
+  getMyCompletedGames, //DONE
   getGame, //DONE
   addNewUser, //DONE
   addNewGame,

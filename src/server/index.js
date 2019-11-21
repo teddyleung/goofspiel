@@ -42,7 +42,8 @@ app.get('/games', (req, res) => {
   res.render('games');
 });
 
-app.get('/games/new', (req, res) => {
+// TODO Delete
+app.get('/games/newer', (req, res) => {
   res.render('games_new');
 });
 
