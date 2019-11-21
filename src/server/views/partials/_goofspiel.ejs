@@ -1,4 +1,41 @@
 <section>
-  <h2>Goofspiel EJS</h2>
-  <div><%= JSON.stringify(game_state) %></div>
+  <div id="gsp-gameboard">
+    <div id='gsp-cards-container'>
+      <div class='gsp-player-card gsp-card hidden' data-card-value="1" id="gsp-card-1">A</div>
+      <div class='gsp-player-card gsp-card hidden' data-card-value="2" id="gsp-card-2">2</div>
+      <div class='gsp-player-card gsp-card hidden' data-card-value="3" id="gsp-card-3">3</div>
+      <div class='gsp-player-card gsp-card hidden' data-card-value="4" id="gsp-card-4">4</div>
+      <div class='gsp-player-card gsp-card hidden' data-card-value="5" id="gsp-card-5">5</div>
+      <div class='gsp-player-card gsp-card hidden' data-card-value="6" id="gsp-card-6">6</div>
+      <div class='gsp-player-card gsp-card hidden' data-card-value="7" id="gsp-card-7">7</div>
+      <div class='gsp-player-card gsp-card hidden' data-card-value="8" id="gsp-card-8">8</div>
+      <div class='gsp-player-card gsp-card hidden' data-card-value="9" id="gsp-card-9">9</div>
+      <div class='gsp-player-card gsp-card hidden' data-card-value="10" id="gsp-card-10">10</div>
+      <div class='gsp-player-card gsp-card hidden' data-card-value="11" id="gsp-card-11">J</div>
+      <div class='gsp-player-card gsp-card hidden' data-card-value="12" id="gsp-card-12">Q</div>
+      <div class='gsp-player-card gsp-card hidden' data-card-value="13" id="gsp-card-13">K</div>
+    </div>
+    <div id="gsp-center-container">
+      <div class="gsp-center-player-col">
+        <div id="gsp-player-name-1" class="gsp-player-name gsp-text-box gsp-text-box__blue"></div>
+        <div id="gsp-played-card-1" class="gsp-card gsp-card__played gsp-card__flipped"></div>
+        <div id="gsp-score-1" class="gsp-player-score gsp-text-box gsp-text-box__blue"></div>
+      </div>
+      <div id="gsp-center-card" class="gsp-card"></div>
+      <div class="gsp-center-player-col">
+        <div id="gsp-player-name-2" class="gsp-player-name gsp-text-box gsp-text-box__red"></div>
+        <div id="gsp-played-card-2" class="gsp-card gsp-card__played gsp-card__flipped"></div>
+        <div id="gsp-score-2" class="gsp-player-score gsp-text-box gsp-text-box__red"></div>
+      </div>
+    </div>
+    <div id="gsp-sprite-container">
+      <img class="gsp-sprite gsp-sprite-dino" id="gsp-sprite-player-1" src="/images/player-1.png">
+      <img class="gsp-sprite gsp-sprite-dino" id="gsp-sprite-player-2" src="/images/player-2.png">
+      <img class="gsp-sprite gsp-sprite-treasure" src="/images/treasure.png">
+    </div>
+    <div id="gsp-winner-banner-modal" class="hidden">
+      <div id="gsp-winner-banner" class="gsp-text-box"></div>
+    </div>
+    <div class="gsp-gameboard-floor"></div>
+  </div>
 </section>

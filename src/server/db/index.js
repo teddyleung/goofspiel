@@ -12,7 +12,7 @@ const getAllUsers = () => {
     SELECT username FROM users;
   `)
     .then(res => res.rows);
-};
+}; //DONE
 
 // query for user login
 const getUserByName = (name) => {
@@ -26,7 +26,7 @@ const getUserByName = (name) => {
     })
     .catch(err => console.error('query error', err.stack));
 
-};
+}; //DONE
 
 // query for 'My Games' Page
 const getMyGamesList = (name) => {
@@ -50,7 +50,7 @@ const getMyGamesList = (name) => {
       return res.rows || null;
     })
     .catch(err => console.error('query error', err.stack));
-};
+}; //DONE
 
 
 // query for 'Leaderooard' Page
@@ -70,7 +70,7 @@ const getLeaderBoardStat = () => {
       return res.rows || null;
     })
     .catch(err => console.error('query error', err.stack));
-};
+}; //DONE
 
 // query for 'Join Games' Page:
 // 1. game not started   2. game not deleted  3. game is not mine
@@ -95,7 +95,7 @@ const getOpenGames = (name) => {
       return res.rows || null;
     })
     .catch(err => console.error('query error', err.stack));
-};
+}; //DONE
 
 
 // query for archives: my own games and their results
@@ -126,7 +126,7 @@ const getMyCompletedGames = (name) => {
       return res.rows || null;
     })
     .catch(err => console.error('query error', err.stack));
-};
+}; //DONE
 
 
 // insert a row into users table when a new user sign up
@@ -139,7 +139,7 @@ const addNewUser = (user) => {
     .then((res) => res.rows[0] || null)
     .catch(err => console.error('query error', err.stack));
 
-};
+}; //DONE
 
 // games user has joined
 const getUserGames = (user) => {
@@ -153,8 +153,16 @@ const getUserGames = (user) => {
     `, [user.username, user.password])
     .then((res) => res.rows[0] || null)
     .catch(err => console.error('query error', err.stack));
+}; //DONE
   
-};
+const getGame = gameUuid => {
+  return pool.query(`
+    SELECT id, uuid, game_type_id, creator_id, created_at, started_at, completed_at, deleted_at, game_state
+      FROM games
+      WHERE uuid = $1
+  `, [gameUuid])
+    .then(game => game.rows[0]);
+}; //DONE
 
 const getGameAndGameType = gameUuid => {
   return pool.query(`
@@ -166,7 +174,7 @@ const getGameAndGameType = gameUuid => {
       WHERE uuid = $1
   `, [gameUuid])
     .then(games => games.rows[0]);
-};
+}; //DONE
 
 const getGameUsers = gameUuid => {
   return pool.query(`
@@ -177,7 +185,7 @@ const getGameUsers = gameUuid => {
       WHERE games.uuid = $1
   `, [gameUuid])
     .then(users => users.rows);
-};
+}; //DONE
 
 const getGameData = gameUuid => {
   return Promise.all([getGameAndGameType(gameUuid), getGameUsers(gameUuid)])
@@ -187,15 +195,113 @@ const getGameData = gameUuid => {
     }));
 };
 
+const updateGameState = (gameUuid, game_state) => {
+  return pool.query(`
+    UPDATE games
+      SET game_state = $1
+      WHERE games.uuid = $2
+      RETURNING id, uuid, game_type_id, creator_id, created_at, started_at, completed_at, deleted_at, game_state
+  `, [game_state, gameUuid])
+    .then(game => game.rows[0]);
+};
+
+const updateGameAndCreateWinner = (gameUuid, game_state, winnerUsernamesArray) => {
+  const winnersLength = winnerUsernamesArray.length;
+  const psqlVarsStart = 3;
+  
+  const winnersInsertValues = winnerUsernamesArray.map((winner, index) => {
+    return `((SELECT id FROM users WHERE username = $${psqlVarsStart + index}), (SELECT id FROM updated_game), ${winnersLength})`
+  }).join(', ');
+  
+  return pool.query(`
+    WITH updated_game AS (  
+      UPDATE games
+        SET game_state = $1, completed_at = NOW()
+        WHERE games.uuid = $2
+        RETURNING id, uuid, game_type_id, creator_id, created_at, started_at, completed_at, deleted_at, game_state
+    ) INSERT INTO winners (user_id, game_id, winners_num)
+      VALUES ${winnersInsertValues}
+        RETURNING (SELECT game_state FROM updated_game)
+  `, [game_state, gameUuid, ...winnerUsernamesArray])
+    .then(game => game.rows[0]);
+};
+
+const shuffle = array => {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
+const suit = [1,2,3,4,5,6,7,8,9,10,11,12,13];
+
+const createGameState = playerOneUsername => {
+  return {
+    cards: shuffle([...suit]),
+    history: [{
+      [playerOneUsername]: null
+    }],
+    players: {
+      [playerOneUsername]: {
+        cards: [...suit],
+        order: 1
+      }
+    }
+  };
+};
+
+const addPlayerToGameState = (currentGameState, username) => {
+  const newGameState = {...currentGameState};
+  newGameState.history[0][username] = null;
+  newGameState.players[username] = {
+    cards: [...suit],
+    order: Object.keys(currentGameState.players).length + 1
+  };
+  return newGameState;
+};
+
+const addNewGame = (game_file_name, username) => {
+  return pool.query(`
+    WITH new_game AS (
+      INSERT INTO games (game_type_id, creator_id, game_state)
+        VALUES ((SELECT id FROM game_types WHERE file_name = $1),
+          (SELECT id FROM users WHERE username = $2), $3)
+          RETURNING games.id, games.uuid
+    ) INSERT INTO user_games (user_id, game_id)
+      VALUES ((SELECT id FROM users WHERE username = $2), (SELECT id FROM new_game))
+        RETURNING (SELECT uuid FROM new_game)
+  `, [game_file_name, username, createGameState(username)])
+    .then(res => res.rows[0]);
+};
+
+const addUserToGame = (gameUuid, game_state, username, gameStartBool) => {
+  return pool.query(`
+    WITH updated_game AS (
+      UPDATE games
+        SET game_state = $1${gameStartBool ? ', started_at = NOW()' : ''}
+        WHERE games.uuid = $2
+        RETURNING id, uuid
+    ) INSERT INTO user_games (user_id, game_id)
+      VALUES ((SELECT id FROM users WHERE username = $3), (SELECT id FROM updated_game))
+        RETURNING (SELECT uuid FROM updated_game)
+  `, [addPlayerToGameState(game_state, username), gameUuid, username])
+    .then(game => game.rows[0]);
+};
 
 module.exports = {
-  getAllUsers,
+  getAllUsers, //DONE
   getGameData,
-  getUserByName,
-  addNewUser,
-  getUserGames,
-  getMyGamesList,
-  getOpenGames,
-  getLeaderBoardStat,
-  getMyCompletedGames
+  getUserByName, //DONE
+  getUserGames, //DONE
+  getMyGamesList, //DONE
+  getOpenGames, //DONE
+  getLeaderBoardStat, //DONE
+  getMyCompletedGames //DONE
+  getGame, //DONE
+  addNewUser, //DONE
+  addNewGame,
+  addUserToGame,
+  updateGameState,
+  updateGameAndCreateWinner
 };

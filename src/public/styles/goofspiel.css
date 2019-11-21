@@ -1,0 +1,177 @@
+/* TODO: Search for px - we don't want fixed sizes. Only % of container */
+
+#gsp-gameboard {
+  position: relative;
+  width: 640px;
+  height: 360px;
+  background-image: url("/images/jungle-4.png"), url("/images/jungle-3.png"), url("/images/jungle-2.png"), url("/images/jungle-1.png");
+  background-size: cover;
+  font-family: "8-bit", serif;
+}
+
+.gsp-background-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.gsp-background-image {
+  position: absolute;
+  height: 100%;
+}
+
+.gsp-gameboard-floor {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 12%;
+  z-index: 100;
+  background-image: url("/images/jungle-floor.png");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+}
+
+#gsp-cards-container {
+  position: absolute;
+  top: 3%;
+  width: 100%;
+  height: 15%;
+  display: flex;
+  justify-content: center;
+}
+
+.gsp-card {
+  background-color: #fff;
+  border: solid 3px #615050;
+  color:#615050; 
+  width: 7%;
+  margin: 0 0.5%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 0.3rem;
+  cursor: pointer;
+  font-size: 1.6rem;
+}
+
+.gsp-card.hidden {
+  display: none;
+}
+
+.gsp-card__played {
+  width: 100%;
+}
+
+.gsp-card__flipped {
+  background-color: #615050;
+}
+
+#gsp-center-container {
+  position: absolute;
+  height: 15%;
+  width: 100%;
+  top: 44%;
+  display: flex;
+  justify-content: center;
+}
+
+#gsp-center-container .gsp-card {
+  cursor: auto;
+}
+
+.gsp-center-player-col {
+  position: relative;
+  height: 100%;
+  width: 7%;
+  margin: 0 3%;
+}
+
+.gsp-player-name {
+  position: absolute;
+  top: -4.8rem;
+  font-size: 1.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.3rem 0.3rem 0.1rem 0.5rem;
+  white-space: nowrap;
+}
+
+.gsp-player-score {
+  position: absolute;
+  bottom: -4.0rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.3rem;
+  min-width: 3.8rem;
+  text-align: center;
+  padding: 0.6rem 0.3rem 0.2rem 0.5rem;
+}
+
+#gsp-winner-banner-modal {
+  position: absolute;
+  background-color: rgba(29, 29, 29, 0.6);
+  width: 100%;
+  height: 100%;
+  z-index: 200;
+}
+
+#gsp-winner-banner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 5rem;
+  white-space: nowrap;
+  min-width: 39rem;
+  padding: 1.5rem 1rem 1rem 1rem;
+  text-align: center;
+}
+
+.gsp-text-box {
+  color: #fff;
+}
+
+.gsp-text-box__blue {
+  background-color: #102EC0;
+}
+
+.gsp-text-box__red {
+  background-color: #AC2104;
+}
+
+#gsp-sprite-container {
+  position: absolute;
+  width: 90%;
+  height: 10%;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.gsp-sprite {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  position: absolute;
+  bottom: 0;
+}
+
+.gsp-sprite-dino {
+  height: 100%;
+  z-index: 100;
+}
+
+.gsp-sprite-treasure {
+  height: 70%;
+  right: 1%;
+}
+
+/* Not started default styling */
+.gsp-not-started .gsp-text-box__red {
+  background-color: #26272D;
+}
+
+.gsp-not-started #gsp-center-container .gsp-card {
+  background-color: #615050;
+}

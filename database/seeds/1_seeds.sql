@@ -19,7 +19,6 @@ INSERT INTO user_games ( user_id, game_id)
 	VALUES (1, 1), 	(2,1), (2, 2), (3, 2), (1, 3), (2, 3), (2, 4), (1, 4), (3, 4), (3, 5), (4, 6),
                (1,7),  (2,7),  (1,8);
 
-
 INSERT INTO games (game_type_id, creator_id, created_at, started_at, completed_at,  deleted_at,  game_state)
    VALUES (1, 3, '2019-11-17 15:40:25', NULL, NULL, NULL, NULL),
 	(1, 3, '2019-11-17 15:50:25', NULL, NULL, NULL, NULL),10
@@ -32,11 +31,8 @@ INSERT INTO games (game_type_id, creator_id, created_at, started_at, completed_a
 	(1, 5, '2019-11-17 18:40:25', NULL, NULL, NULL, NULL),17
 	(2, 5, '2019-11-17 18:40:25', NULL, NULL, NULL, NULL);18
 
-
 INSERT INTO user_games ( user_id, game_id)
 	VALUES (3, 9), 	(3,10), (3, 11), (3, 12), (4, 13), (4, 14), (4, 15), (4, 16), (5, 17), (5, 18);
-
-32 games in total right now
 
 INSERT INTO games (game_type_id, creator_id, created_at, started_at, completed_at,  deleted_at,  game_state)
    VALUES (1, 1, '2019-11-18 15:30:15', '2019-11-18 15:30:20', '2019-11-18 15:40:20', NULL, NULL),
@@ -60,12 +56,3 @@ INSERT INTO winners ( user_id, game_id, winners_num)
   	(3, 24, 1),  
 	(1, 25, 4), (2, 25, 4), (3, 25, 4), (5, 25, 4),
 	(1, 26, 2), (3, 26, 2);
-
-
-
-
-
-
-
-
-
