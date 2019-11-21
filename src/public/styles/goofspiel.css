@@ -1,9 +1,12 @@
 /* TODO: Search for px - we don't want fixed sizes. Only % of container */
+#gsp-game-section {
+  background-color: #fff;
+}
 
 #gsp-gameboard {
   position: relative;
-  width: 640px;
-  height: 360px;
+  width: 960px;
+  height: 540px;
   background-image: url("/images/jungle-4.png"), url("/images/jungle-3.png"), url("/images/jungle-2.png"), url("/images/jungle-1.png");
   background-size: cover;
   font-family: "8-bit", serif;

@@ -223,6 +223,12 @@ p {
   justify-content: space-between;
 }
 
+.game-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 5rem;
+}
+
 /* ---------- UTILITIES ---------- */
 
 .hidden {
@@ -239,4 +245,8 @@ p {
 
 .bold {
   font-weight: 600;
+}
+
+.text-center {
+  text-align: center;
 }
