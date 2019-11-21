@@ -44,7 +44,18 @@ $(() => {
   };
 
   const renderPlayedCards = (playerOrder, playerCard) => {
-    $(`#gsp-played-card-${playerOrder}`).text(convertCardNumToText(playerCard));
+    if (playerCard) {
+      $(`#gsp-played-card-${playerOrder}`)
+        .text(convertCardNumToText(playerCard))
+        .removeClass('gsp-card__flipped');
+    }
+  };
+
+  const renderAllPlayedCards = (orderedPlayersPair, history) => {
+    orderedPlayersPair.forEach((player, index) => {
+      const playerCard = history[history.length - 1][player];
+      renderPlayedCards(index + 1, playerCard);
+    });
   };
 
   const renderPlayerCards = userCards => {
@@ -80,37 +91,41 @@ $(() => {
       return;
     }
 
-    // set color to your color
     const color = orderedPlayersPair[0] === username ? 'blue' : 'red';
     $('#gsp-winner-banner').addClass(`gsp-text-box__${color}`);
-    //unhide
+    
     $('#gsp-winner-banner-modal').removeClass('hidden');
+  };
+  
+  const renderPlayerNames = orderedPlayersPair => {
+    orderedPlayersPair.forEach((player, index) => {
+      $(`#gsp-player-name-${index + 1}`).text(player);
+    });
   };
 
   const orderPlayers = players => Object.keys(players).sort((a, b) => {
     return players[a].order - players[b].order;
   });
   
-  const render = gameState => {
-    // TODO: split up the logic into separate functions. render() is too many lines
-    
+  const render = gameState => {    
     const { cards, players, history } = gameState;
-    
     const centerCard = cards[history.length - 1];
-    $('#gsp-center-card').text(convertCardNumToText(centerCard));
-
     const orderedPlayersPair = orderPlayers(players);
-
-    orderedPlayersPair.forEach((player, index) => {
-      const playerCard = history[history.length - 1][player];
-      $(`#gsp-player-name-${index + 1}`).text(player);
-      renderPlayedCards(index + 1, playerCard);
-    });
-
+    const userCards = players[username].cards
+    const lastRound = history[history.length - 1];
+    
+    $('#gsp-center-card').text(convertCardNumToText(centerCard));
+    $('.gsp-card__played').addClass('gsp-card__flipped');
+    renderPlayerNames(orderedPlayersPair);
+    
+    if (!Object.values(lastRound).includes(null)) {
+      renderAllPlayedCards(orderedPlayersPair, history);
+    } else if (lastRound[username] !== null) {
+      renderPlayedCards(players[username].order, lastRound[username]);
+    }
+    
     renderScore(orderedPlayersPair, cards, history);
     renderWinner(orderedPlayersPair, cards, history);
-
-    const userCards = players[username].cards
     renderPlayerCards(userCards);
   };
 

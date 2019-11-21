@@ -63,6 +63,10 @@
   width: 100%;
 }
 
+.gsp-card__flipped {
+  background-color: #615050;
+}
+
 #gsp-center-container {
   position: absolute;
   height: 15%;
