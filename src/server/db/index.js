@@ -1,6 +1,4 @@
 const { Pool } = require('pg');
-const moment = require('moment');
-
 
 const pool = new Pool({
   user: process.env.DB_USER,
