@@ -10,6 +10,12 @@ body {
     background-color: #f7f7f8;  
 }
 
+.type-select {
+  color: #9147ff;
+  border-bottom: 2px solid #9147ff;
+}
+
+
 .button {
   border-radius: 5px;
   padding: 5px;
