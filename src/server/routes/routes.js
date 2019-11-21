@@ -13,8 +13,7 @@ module.exports = function(router, db) {
           return;
         } else {
           console.log("Bad username or password, cannot login!", username, password);
-          res.status(200).send({user: username, error: 'bad password'});
-          return null;
+          return res.redirect("/");
         }
       })
       .catch(e => res.send(e));
@@ -46,7 +45,6 @@ module.exports = function(router, db) {
         } else {
           console.log("Already exists, failed to create user.");
           res.redirect(`/`);
-          // res.status(200).send({user: newUser.username});
         }
       })
       .catch(e => res.send(e));
