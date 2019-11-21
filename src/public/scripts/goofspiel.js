@@ -49,9 +49,11 @@ $(() => {
 
   const renderScore = (orderedPlayersPair, cards, history) => {
     const score = calcScore(cards, history, orderedPlayersPair);
+    const percentWidthToReachEnd = 90;
 
     orderedPlayersPair.forEach((player, index) => {
       $(`#gsp-score-${index + 1}`).text(WIN_SCORE - score[player]);
+      $(`#gsp-sprite-player-${index + 1}`).css('left', `${Math.min(score[player] / WIN_SCORE * percentWidthToReachEnd, percentWidthToReachEnd)}%`);
     });
   };
 
