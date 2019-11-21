@@ -54,16 +54,16 @@ module.exports = function(router, db) {
 
   router.get('/', (req, res) => {
     if (!req.session.name) {
-      res.redirect('/login');
+      res.render(`login`, {"accountName": req.session.name});
     } else {
-      res.render('index.ejs');
+      res.redirect('/room');
     }
   });
 
   router.get("/games/new", (req, res) => {
     const username = req.session.name;
     if (!username) {
-      return res.redirect('/login');
+      return res.redirect('/');
     }
     
     res.render(`newgame`, {"accountName": req.session.name});
@@ -81,7 +81,7 @@ module.exports = function(router, db) {
   router.get("/games", (req, res) => {
     const username = req.session.name;
     if (!username) {
-      return res.redirect('/login');
+      return res.redirect('/');
     }
 
     db.getOpenGames(username)
@@ -100,7 +100,7 @@ module.exports = function(router, db) {
   router.get("/room", (req, res) => {
     const username = req.session.name;
     if (!username) {
-      return res.redirect('/login');
+      return res.redirect('/');
     }
     
     db.getMyGamesList(username)
@@ -119,7 +119,7 @@ module.exports = function(router, db) {
   router.get("/leaderboard", (req, res) => {
     const username = req.session.name;
     if (!username) {
-      return res.redirect('/login');
+      return res.redirect('/');
     }
     
     db.getLeaderBoardStat()
@@ -136,14 +136,14 @@ module.exports = function(router, db) {
   router.get('/archives', (req, res) => {
     const username = req.session.name;
     if (!username) {
-      res.redirect('/login');
+      res.redirect('/');
     }
   });
 
   router.get('/archives/:username', (req, res) => {
     const username = req.session.name;
     if (!username) {
-      res.redirect('/login');
+      res.redirect('/');
     } else {
       db.getMyCompletedGames(username)
         .then(allCompletedGames => {
