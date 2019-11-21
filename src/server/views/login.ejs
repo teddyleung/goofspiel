@@ -15,20 +15,23 @@
 <body>
 
   <% include ./partials/nav.ejs %> 
-  <div class='login'>
-    <h3>Account</h3>
+  <div class='login-container'>
+    <h3 style='text-align: center; margin: 0px'>Account</h3>
+
+    <div class='login-toggler label-align'>
+      <strong><span id='login' class='login-toggle'>Login</span> <span class='login-toggle' id='signup'>Sign Up</span><strong>
+    </div>
+
     <form id="login-form" name="users" action="/login" method="POST">
 
-        <div class="line-align"> <label class='label-align' for="username">username:</label>
-          <input class='text-input' type="text" name="username" required placeholder="Your Username"> 
-        </div>
-
-        <div class='line-align'> <label='label-align' for="password">password:</label> 
-          <input class='text-input' type="password" name="password" id="password" required placeholder="Your Password">
-        </div>
-        <div class='line-align'> 
-          <button type="button" class='button button-primary' onclick="login()">Login</button> 
-          <button type="button" class='button button-primary' onclick="signup()">Signup</button> 
+        <div class='label-align'><label for="username"><strong>Username</strong></label></div>
+        <div><input class='text-input' type="text" name="username" required placeholder="Your Username"></div>
+        
+        <div class='label-align'><label for="password"><strong>Password</strong></label></div>
+        <div><input class='text-input' type="password" name="password" id="password" required placeholder="Your Password"></div>
+        
+        <div> 
+          <button type="button" class='button button-primary button-login' onclick="login()">Submit</button> 
         </div>
         
     </form>
@@ -36,19 +39,39 @@
 
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>    
 
-  <script>
+    <script>
 
-    function login(){ 
-        document.users.action="/login";
-        document.users.submit();
-    }
+      function login(){ 
+        if($('#login').hasClass('type-select')) {
+          document.users.action="/login";
+          document.users.submit();
+        } else {
+          document.users.action="/signup";
+          document.users.submit();
+        }
+      }
 
-    function signup(){
-        document.users.action="/signup";
-        document.users.submit();
-    }
-  
+      $(document).ready(()=> {
+
+        $('#login').click(() => {       
+          $('#login').addClass('type-select');
+          $("#signup").removeClass('type-select');
+        });
+
+        $('#signup').click(() => {       
+          $('#signup').addClass('type-select');
+          $("#login").removeClass('type-select');
+        });
+
+        if(`<%= loginType %>` === 'signup') {
+            $('#signup').click();
+        } else {
+            $('#login').click();
+        }
+      });
+
   </script>
+
 
 </body>
 

@@ -15,8 +15,7 @@ module.exports = function(router, db) {
           return;
         } else {
           console.log("Bad username or password, cannot login!", username, password);
-          res.status(200).send({user: username, error: 'bad password'});
-          return null;
+          return res.redirect("/");
         }
       })
       .catch(e => res.send(e));
@@ -36,7 +35,6 @@ module.exports = function(router, db) {
     const newUser = req.body;
     db.getUserByName(newUser.username)
       .then(user => {
-        console.log("get user?",user);
         if (!user) {
           newUser.password = bcrypt.hashSync(newUser.password, 12);
           db.addNewUser(newUser)
@@ -49,8 +47,8 @@ module.exports = function(router, db) {
             })
             .catch(e => res.send(e));
         } else {
-          console.log("failed to create user.");
-          res.status(200).send({user: newUser.username});
+          console.log("Already exists, failed to create user.");
+          res.redirect(`/`);
         }
       })
       .catch(e => res.send(e));
@@ -58,16 +56,20 @@ module.exports = function(router, db) {
 
   router.get('/', (req, res) => {
     if (!req.session.name) {
-      res.redirect('/login');
+      if (req.query["form"]) {
+        res.render(`login`, {"loginType": req.query["form"], "accountName": req.session.name});
+      } else {
+        res.render(`login`, {"loginType": 'login', "accountName": req.session.name});
+      }
     } else {
-      res.render('index.ejs');
+      res.redirect('/room');
     }
   });
 
   router.get("/games/new", (req, res) => {
     const username = req.session.name;
     if (!username) {
-      return res.redirect('/login');
+      return res.redirect('/');
     }
     
     res.render(`newgame`, {"accountName": req.session.name});
@@ -85,7 +87,7 @@ module.exports = function(router, db) {
   router.get("/games", (req, res) => {
     const username = req.session.name;
     if (!username) {
-      return res.redirect('/login');
+      return res.redirect('/');
     }
 
     db.getOpenGames(username)
@@ -97,14 +99,12 @@ module.exports = function(router, db) {
         return;
       })
       .catch(e => res.send(e));
-
-    console.log('get request to join games,');
   });
 
   router.get("/room", (req, res) => {
     const username = req.session.name;
     if (!username) {
-      return res.redirect('/login');
+      return res.redirect('/');
     }
     
     db.getMyGamesList(username)
@@ -116,14 +116,12 @@ module.exports = function(router, db) {
         return;
       })
       .catch(e => res.send(e));
-
-    console.log('get request to my games room');
   });
    
   router.get("/leaderboard", (req, res) => {
     const username = req.session.name;
     if (!username) {
-      return res.redirect('/login');
+      return res.redirect('/');
     }
     
     db.getLeaderBoardStat()
@@ -133,21 +131,19 @@ module.exports = function(router, db) {
         return;
       })
       .catch(e => res.send(e));
-
-    console.log('get request to my games room');
   });
 
   router.get('/archives', (req, res) => {
     const username = req.session.name;
     if (!username) {
-      res.redirect('/login');
+      res.redirect('/');
     }
   });
 
   router.get('/archives/:username', (req, res) => {
     const username = req.session.name;
     if (!username) {
-      res.redirect('/login');
+      res.redirect('/');
     } else {
       db.getMyCompletedGames(username)
         .then(allCompletedGames => {
@@ -162,6 +158,5 @@ module.exports = function(router, db) {
         .catch(e => res.send(e));
     }
   });
-  
 };
 
