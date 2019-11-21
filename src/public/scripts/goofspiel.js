@@ -1,6 +1,12 @@
 $(() => {
   let localGameState = null;
   const WIN_SCORE = 45;
+  const cardText = {
+    '1': 'A',
+    '11': 'J',
+    '12': 'Q',
+    '13': 'K'
+  };
 
   // TODO: with real JWT, we need to decode the base64 to actually get the username
   const username = document.cookie.replace(/(?:(?:^|.*;\s*)jwt\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -11,6 +17,10 @@ $(() => {
     if (round[playerPair[0]] === round[playerPair[1]]) return null;
     
     return round[playerPair[0]] > round[playerPair[1]] ? playerPair[0] : playerPair[1];
+  };
+
+  const convertCardNumToText = cardValue => {
+    return cardText[String(cardValue)] || cardValue;
   };
   
   const calcScore = (cards, history, playerPair) => {
@@ -34,7 +44,7 @@ $(() => {
   };
 
   const renderPlayedCards = (playerOrder, playerCard) => {
-    $(`#gsp-played-card-${playerOrder}`).text(playerCard);
+    $(`#gsp-played-card-${playerOrder}`).text(convertCardNumToText(playerCard));
   };
 
   const renderPlayerCards = userCards => {
@@ -87,7 +97,7 @@ $(() => {
     const { cards, players, history } = gameState;
     
     const centerCard = cards[history.length - 1];
-    $('#gsp-center-card').text(centerCard);
+    $('#gsp-center-card').text(convertCardNumToText(centerCard));
 
     const orderedPlayersPair = orderPlayers(players);
 
