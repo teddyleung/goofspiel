@@ -136,6 +136,33 @@
   background-color: #AC2104;
 }
 
+#gsp-sprite-container {
+  position: absolute;
+  width: 90%;
+  height: 10%;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.gsp-sprite {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  position: absolute;
+  bottom: 0;
+}
+
+.gsp-sprite-dino {
+  height: 100%;
+  z-index: 100;
+}
+
+.gsp-sprite-treasure {
+  height: 70%;
+  right: 1%;
+}
+
 /* Not started default styling */
 .gsp-not-started .gsp-text-box__red {
   background-color: #26272D;
