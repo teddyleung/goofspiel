@@ -1,0 +1,20 @@
+@font-face {
+  font-family: "8-bit";
+  src: url("/fonts/8-bit.ttf");
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 10px;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-size: 1.6rem;
+}
+
+.hidden {
+  display: none;
+}

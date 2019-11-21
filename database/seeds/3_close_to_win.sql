@@ -1,0 +1,2 @@
+INSERT INTO games (game_type_id, creator_id, game_state, started_at)
+  VALUES (1, 1, '{"players": {"Alice": {"cards": [12,13], "order": 1}, "Bob": {"cards": [12,13], "order": 2}}, "history": [{"Alice": 1, "Bob": 1},{"Alice": 2, "Bob": 2},{"Alice": 3, "Bob": 3},{"Alice": 4, "Bob": 4},{"Alice": 5, "Bob": 5},{"Alice": 6, "Bob": 6},{"Alice": 7, "Bob": 7},{"Alice": 8, "Bob": 8},{"Alice": 9, "Bob": 9},{"Alice": 10, "Bob": 10},{"Alice": 11, "Bob": 11},{"Alice": null, "Bob": null}], "cards": [12,2,3,4,5,6,7,8,9,10,11,13,1]}', NOW());

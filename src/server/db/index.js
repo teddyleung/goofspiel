@@ -6,6 +6,15 @@ const pool = new Pool({
   database: process.env.DB_DATABASE
 });
 
+const getGame = gameUuid => {
+  return pool.query(`
+    SELECT id, uuid, game_type_id, creator_id, created_at, started_at, completed_at, deleted_at, game_state
+      FROM games
+      WHERE uuid = $1
+  `, [gameUuid])
+    .then(game => game.rows[0]);
+};
+
 const getGameAndGameType = gameUuid => {
   return pool.query(`
     SELECT games.id, uuid, game_type_id, creator_id, created_at, started_at, completed_at, deleted_at, game_state, game_types.name as game_name, game_types.file_name, game_types.player_min, game_types.player_max
@@ -35,6 +44,100 @@ const getGameData = gameUuid => {
     }));
 };
 
+const updateGameState = (gameUuid, game_state) => {
+  return pool.query(`
+    UPDATE games
+      SET game_state = $1
+      WHERE games.uuid = $2
+      RETURNING id, uuid, game_type_id, creator_id, created_at, started_at, completed_at, deleted_at, game_state
+  `, [game_state, gameUuid])
+    .then(game => game.rows[0]);
+};
+
+const updateGameAndCreateWinner = (gameUuid, game_state, winnerUsernamesArray) => {
+  const winnersLength = winnerUsernamesArray.length;
+  const psqlVarsStart = 3;
+  
+  const winnersInsertValues = winnerUsernamesArray.map((winner, index) => {
+    return `((SELECT id FROM users WHERE username = $${psqlVarsStart + index}), (SELECT id FROM updated_game), ${winnersLength})`
+  }).join(', ');
+  
+  return pool.query(`
+    WITH updated_game AS (  
+      UPDATE games
+        SET game_state = $1, completed_at = NOW()
+        WHERE games.uuid = $2
+        RETURNING id, uuid, game_type_id, creator_id, created_at, started_at, completed_at, deleted_at, game_state
+    ) INSERT INTO winners (user_id, game_id, winners_num)
+      VALUES ${winnersInsertValues}
+        RETURNING (SELECT game_state FROM updated_game)
+  `, [game_state, gameUuid, ...winnerUsernamesArray])
+    .then(game => game.rows[0]);
+};
+
+const shuffle = array => {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
+const suit = [1,2,3,4,5,6,7,8,9,10,11,12,13];
+
+const createGameState = playerOneUsername => {
+  return {
+    cards: shuffle([...suit]),
+    history: [{
+      [playerOneUsername]: null
+    }],
+    players: {
+      [playerOneUsername]: {
+        cards: [...suit],
+        order: 1
+      }
+    }
+  };
+};
+
+const addPlayerToGameState = (currentGameState, username) => {
+  const newGameState = {...currentGameState};
+  newGameState.history[0][username] = null;
+  newGameState.players[username] = {
+    cards: [...suit],
+    order: Object.keys(currentGameState.players).length + 1
+  };
+  return newGameState;
+};
+
+const addNewGame = (game_file_name, username) => {
+  return pool.query(`
+    WITH new_game AS (
+      INSERT INTO games (game_type_id, creator_id, game_state)
+        VALUES ((SELECT id FROM game_types WHERE file_name = $1),
+          (SELECT id FROM users WHERE username = $2), $3)
+          RETURNING games.id, games.uuid
+    ) INSERT INTO user_games (user_id, game_id)
+      VALUES ((SELECT id FROM users WHERE username = $2), (SELECT id FROM new_game))
+        RETURNING (SELECT uuid FROM new_game)
+  `, [game_file_name, username, createGameState(username)])
+    .then(res => res.rows[0]);
+};
+
+const addUserToGame = (gameUuid, game_state, username, gameStartBool) => {
+  return pool.query(`
+    WITH updated_game AS (
+      UPDATE games
+        SET game_state = $1${gameStartBool ? ', started_at = NOW()' : ''}
+        WHERE games.uuid = $2
+        RETURNING id, uuid
+    ) INSERT INTO user_games (user_id, game_id)
+      VALUES ((SELECT id FROM users WHERE username = $3), (SELECT id FROM updated_game))
+        RETURNING (SELECT uuid FROM updated_game)
+  `, [addPlayerToGameState(game_state, username), gameUuid, username])
+    .then(game => game.rows[0]);
+};
+
 // TODO: Delete this
 const getAllUsers = () => {
   return pool.query(`
@@ -45,5 +148,10 @@ const getAllUsers = () => {
 
 module.exports = {
   getAllUsers,
-  getGameData
+  getGameData,
+  getGame,
+  updateGameState,
+  addNewGame,
+  addUserToGame,
+  updateGameAndCreateWinner
 }
