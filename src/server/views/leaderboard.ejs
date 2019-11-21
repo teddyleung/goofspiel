@@ -25,8 +25,7 @@
             <% let count = 1 %>            
             <% userScores.forEach((userScore, index) => { %>
               <% if(userScore.game_name === gameName && count <= 10) { %>
-                <% count++ %>
-                <p> <%= `${count}    ` %><%= userScore.username %>, <%= userScore.wins %>, <%= userScore.score %> </p>                
+                <p> <%= `${count++}    ` %><%= userScore.username %>, <%= userScore.wins %>, <%= userScore.score %> </p>                
               <% } %>
             <% }); %>
                   
