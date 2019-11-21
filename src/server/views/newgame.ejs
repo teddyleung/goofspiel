@@ -3,8 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="/styles/nav.css" type="text/css" /> 
-    <link rel="stylesheet" href="/styles/common.css" type="text/css" /> 
+    <link rel="stylesheet" href="/styles/index.css" type="text/css" /> 
     <link rel="stylesheet" href="/styles/newgame.css" type="text/css" /> 
 
     <title>Card Games</title>
@@ -12,20 +11,22 @@
   <body>
 
     <% include ./partials/nav.ejs %>
-    <h1 id="game-list">Create Games</h1> <!-- List completed games of all users -->   
-
-    <div class='game-types'>      
-      <div class='my-games-toggle game-name type-select'> Card Games </div>
-    </div>
-
-    <div style="display: flex; justify-content: flex-start;">
-      <div class='game-type'> 
-        <img class='pic-shadow' height="300" width="200" src='https://lh3.googleusercontent.com/mCA8uTgjgbl_wYvGtc2H76eGlXJjPvzGxUT1NGDNFiDgzI7u_kJAmMsMm2ypfzE7DA'>  
-        <p style='font-weight: 600;'>GoofSpiel</p>
+    <div class="container">
+      <h1 id="game-list">Create Games</h1> <!-- List completed games of all users -->   
+  
+      <div class='game-types'>      
+        <div class='my-games-toggle game-name type-select'> Card Games </div>
       </div>
-      <div  class='game-type'> 
-        <img class='pic-shadow' height="300" width="200" src='https://images-na.ssl-images-amazon.com/images/I/71LpuvHDRLL._SY741_.jpg'>  
-        <p style='font-weight: 600;'>Cards Agaist Humanity</p>
+  
+      <div style="display: flex; justify-content: flex-start;">
+        <div class='game-type'> 
+          <img class='pic-shadow' height="300" width="200" src='https://lh3.googleusercontent.com/mCA8uTgjgbl_wYvGtc2H76eGlXJjPvzGxUT1NGDNFiDgzI7u_kJAmMsMm2ypfzE7DA'>  
+          <p style='font-weight: 600;'>GoofSpiel</p>
+        </div>
+        <div  class='game-type'> 
+          <img class='pic-shadow' height="300" width="200" src='https://images-na.ssl-images-amazon.com/images/I/71LpuvHDRLL._SY741_.jpg'>  
+          <p style='font-weight: 600;'>Cards Agaist Humanity</p>
+        </div>
       </div>
     </div>
 
@@ -33,12 +34,7 @@
     <script type="text/javascript" src="/scripts/room.js"></script>
     
     <script>
-        $(document).ready(()=> {
-            // $('#goofspiel').on("mouseover", 'img', function() {
-            //   event.preventDefault();
-            //   $(this).css("box-shadow", '10px 10px 5px #9147ff');
-            // });
-        });
+      $('.nav-header [data-path="/games/new"]').addClass("nav-link-active");
     </script>
   </body>
 

@@ -42,7 +42,8 @@ app.get('/games', (req, res) => {
   res.render('games');
 });
 
-app.get('/games/new', (req, res) => {
+// TODO Delete
+app.get('/games/newer', (req, res) => {
   res.render('games_new');
 });
 
@@ -56,9 +57,11 @@ app.get('/games/:uuid', (req, res) => {
       // If not started, proceed regardless of user. If started but not a player, redirect to /games
 
       res.render('game', {
+        accountName: req.session.name,
         file_name: data.file_name,
         users: data.users,
-        uuid: data.uuid
+        uuid: data.uuid,
+        gameName: data.game_name
       });
     });
 });

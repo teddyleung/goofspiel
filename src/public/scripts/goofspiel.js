@@ -8,6 +8,8 @@ $(() => {
     '13': 'K'
   };
 
+  let lastSeenRound = null;
+
   // TODO: with real JWT, we need to decode the base64 to actually get the username
   const username = document.cookie.replace(/(?:(?:^|.*;\s*)jwt\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   
@@ -118,9 +120,9 @@ $(() => {
     $('.gsp-card__played').addClass('gsp-card__flipped');
     renderPlayerNames(orderedPlayersPair);
     
-    if (!Object.values(lastRound).includes(null)) {
+    if (lastRound && !Object.values(lastRound).includes(null)) {
       renderAllPlayedCards(orderedPlayersPair, history);
-    } else if (lastRound[username] !== null) {
+    } else if (lastRound && lastRound[username] !== null) {
       renderPlayedCards(players[username].order, lastRound[username]);
     }
     
@@ -142,11 +144,10 @@ $(() => {
       const history = localGameState.history;
       
       if (Object.keys(localGameState.players).length < 2) {
-        console.log('clicked but no second player');
         return;
       }
 
-      if (history[history.length - 1][username] === null) {
+      if (history[history.length - 1][username] === null && (lastSeenRound === history.length - 1 || history.length === 1)) {
         const cardValue = $(this).data('cardValue');
         
         history[history.length - 1][username] = cardValue;
@@ -167,15 +168,33 @@ $(() => {
     });
   });
 
+  $('#gsp-next-round').click(() => {
+    $('#gsp-next-round').addClass('hidden');
+    render(localGameState);
+    lastSeenRound = localGameState.history.length - 1;
+  });
+
   socket.on('hydrate-state', data => {
     console.log(data);
     localGameState = data.gameState;
-    // TODO only render game state if there are two players. Otherwise, render default renderDefault()
+
     if (Object.keys(data.gameState.players).length < 2) {
       renderDefault(data.gameState);
     } else {
       $('#gsp-gameboard').removeClass('gsp-not-started');
-      render(data.gameState);
+      
+      const history = data.gameState.history;
+      const historyLength = history.length 
+      if (lastSeenRound === historyLength - 1 || historyLength === 1 || history[historyLength - 1][username] !== null) {
+        render(data.gameState);
+      } else {
+        $('#gsp-next-round').removeClass('hidden');
+        const lastRoundState = {
+          ...data.gameState,
+          history: data.gameState.history.slice(0, historyLength - 1)
+        };
+        render(lastRoundState);
+      }
     }
   });
 });
