@@ -10,24 +10,26 @@
   </head>
   <body>
     <% include ./partials/nav.ejs %>
-    <h1>Leaderboard</h1>  
-    <div class='tile-container-leaderbox'> 
-      <% for(let gameName of gameTypes) {  %> 
-        <div class="tile-leaderboard">     
-          <h3 style='text-align: center;' class='tile-title'>Rank of <%= gameName %></h>
-            <% let count = 1 %>            
-            <% userScores.forEach((userScore, index) => { %>
-              <% if(userScore.game_name === gameName && count <= 10) { %>
-                <% count++ %>
-                <p> <%= `${count}    ` %><%= userScore.username %>, <%= userScore.wins %>, <%= userScore.score %> </p>                
+    <div class="container">
+      <h1>Leaderboard</h1>  
+      <div class='tile-container-leaderbox'> 
+        <% for(let gameName of gameTypes) {  %> 
+          <div class="tile-leaderboard">     
+            <h3 style='text-align: center;' class='tile-title'>Rank of <%= gameName %></h>
+              <% let count = 1 %>            
+              <% userScores.forEach((userScore, index) => { %>
+                <% if(userScore.game_name === gameName && count <= 10) { %>
+                  <% count++ %>
+                  <p> <%= `${count}    ` %><%= userScore.username %>, <%= userScore.wins %>, <%= userScore.score %> </p>                
+                <% } %>
+              <% }); %>
+                    
+              <% for(; count <= 10; count++) { %>
+                 <p><%= count %></p>
               <% } %>
-            <% }); %>
-                  
-            <% for(; count <= 10; count++) { %>
-               <p><%= count %></p>
-            <% } %>
-        </div>
-      <% } %>
+          </div>
+        <% } %>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script>

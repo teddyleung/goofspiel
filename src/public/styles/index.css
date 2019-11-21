@@ -29,6 +29,7 @@ body {
   position: relative;
   top: 50px;
   margin: 0;
+  color: #222222;
 }
 
 a {
@@ -40,8 +41,21 @@ button {
   cursor: pointer;
 }
 
-/* ---------- LAYOUT ---------- */
+h1 {
+  font-size: 5.4rem;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
 
+p {
+  margin: 1.2rem 0;
+}
+
+/* ---------- LAYOUT ---------- */
+.container {
+  width: 94%;
+  margin: 0 auto;
+}
 
 /* ---------- COMPONENTS ---------- */
 .nav-header {
@@ -134,76 +148,48 @@ button {
   background-color: var(--secondary-color-active);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .game-types {
   display: flex;
   justify-content: flex-start;
+  font-size: 1.4rem;
+  font-weight: 400;
 }
 
 .game-name {
-  padding-bottom: 20px;
+  padding-bottom: 16px;
   margin-right: 20px;
   font-weight: 700;
   font-size: 1.3em;
+  cursor: pointer;
 }
 
 .type-select {
-  color: #9147ff;
-  border-bottom: 2px solid #9147ff;
+  color: var(--primary-color-active);
+  border-bottom: 2px solid var(--primary-color-active);
 }
 
 .tile-container {
-  display: flex;
-  flex-wrap: wrap;  
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(28rem, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
 }
 
 .tile {
-  border-radius: 10px;
-  border: solid 1px gray;
-  margin-top: 15px;
-  margin-right: 24px;
-  margin-bottom: 15px;  
+  border-radius: 6px;
   background-color: white;
-
-  padding: 10px;
-  padding-top: 0px;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
-  /* vertical-align: center; */
+  padding: 2rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15), 0 0px 2px rgba(0,0,0,0.1);
 }
 
 .tile-title {
   font-weight: 700;
-  margin-bottom: 0px;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.tile p {
+  font-size: 1.4rem;
 }
 
 .tile-container-leaderbox {
