@@ -196,17 +196,44 @@ p {
 
 .tile-container-leaderbox {
   display: flex;
-  justify-content: space-between; 
-  padding-left: 20%;
-  padding-right: 20%;
+  justify-content: flex-start; 
 }
 
+.tile-leaderboard-header {
+    padding: 20px;
+    text-align: center;
+}
+
+.table-leaderbox {    
+    margin-top: 10px;
+    width:300px;
+    border:0px;
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+.table-archives {    
+    margin-top: 10px;
+    width:400px;
+    border:0px;
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+.tb-header {
+    border-bottom: 2px solid gray;
+}
+
+td {     
+    text-align: left; 
+    padding: 10px ;
+} 
+
 .tile-leaderboard {
-  width: 40%;
+  width: 25%;
   height: 80%;
 
   border-radius: 10px;
-  border: solid 10px goldenrod;
   margin-top: 15px;
   margin-right: 24px;
   margin-bottom: 15px;  

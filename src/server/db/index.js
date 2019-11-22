@@ -101,9 +101,9 @@ const getOpenGames = (name) => {
 const getMyCompletedGames = (name) => {
 
   return pool.query(`
-    select mygames.game_id, mygames.name, mygames.completed_at, mygames.players, array_agg(users.username) as winners
+    select mygames.game_id, mygames.name, mygames.type_id, mygames.completed_at, mygames.players, array_agg(users.username) as winners
     from (
-          select user_games.game_id, game_types.name, games.completed_at, array_agg(users.username) as players
+          select user_games.game_id, game_types.id as type_id, game_types.name, games.completed_at, array_agg(users.username) as players
           from users 
           join user_games on users.id = user_games.user_id 
           join games on games.id = user_games.game_id 
@@ -114,12 +114,12 @@ const getMyCompletedGames = (name) => {
             join user_games ON games.id = user_games.game_id 
             join users on users.id = user_games.user_id join winners on games.id = winners.game_id
             where users.username= $1 and games.completed_at is not null)
-          group by user_games.game_id, game_types.name, games.completed_at order by completed_at desc
+          group by user_games.game_id, game_types.id, game_types.name, games.completed_at order by completed_at desc
         ) 
     as mygames join winners on mygames.game_id = winners.game_id 
     join users on users.id = winners.user_id 
-    group by mygames.game_id, mygames.name, mygames.completed_at, mygames.players 
-    order by completed_at desc;
+    group by mygames.game_id,  mygames.type_id, mygames.name, mygames.completed_at, mygames.players 
+    order by mygames.type_id, completed_at desc;
     `, [name])
     .then((res) => {
       return res.rows || null;
@@ -209,7 +209,7 @@ const updateGameAndCreateWinner = (gameUuid, game_state, winnerUsernamesArray) =
   const psqlVarsStart = 3;
   
   const winnersInsertValues = winnerUsernamesArray.map((winner, index) => {
-    return `((SELECT id FROM users WHERE username = $${psqlVarsStart + index}), (SELECT id FROM updated_game), ${winnersLength})`
+    return `((SELECT id FROM users WHERE username = $${psqlVarsStart + index}), (SELECT id FROM updated_game), ${winnersLength})`;
   }).join(', ');
   
   return pool.query(`

@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/styles/index.css" type="text/css" /> 
-    <link rel="stylesheet" href="/styles/room.css" type="text/css" /> 
 
     <title>Leaderboard</title>
+
   </head>
   <body>
     <% include ./partials/nav.ejs %>
@@ -14,19 +14,36 @@
     <div class="container">
       <h1>Leaderboards</h1>  
       <div class='tile-container-leaderbox'> 
+
         <% for(let gameName of gameTypes) {  %> 
+       
           <div class="tile-leaderboard">     
-            <h3 style='text-align: center;' class='tile-title'>Rank of <%= gameName %></h>
-              <% let count = 1 %>            
-              <% userScores.forEach((userScore, index) => { %>
-                <% if(userScore.game_name === gameName && count <= 10) { %>
-                  <p> <%= `${count++}    ` %><%= userScore.username %>, <%= userScore.wins %>, <%= userScore.score %> </p>                
+          <h3 class='tile-title tile-leaderboard-header'>Rank of <%= gameName %></h>
+
+          <table class='table-leaderbox'>
+            <thead class='tb-header'>  
+              <tr> <th>Rank</th> <th>Top Players</th> <th>Points</th> </tr>
+            </thead>
+
+                <tbody>
+                <% let count = 1 %>            
+                <% userScores.forEach((userScore, index) => { %>
+                  <% if(userScore.game_name === gameName && count <= 10) { %>
+                    <tr> <td><%= `${count++}.` %></td> 
+                      <td><%= userScore.username %></td>
+                      <!-- <td><%= userScore.wins %></td> -->
+                      <td><%= userScore.score %></td> </tr>              
+                  <% } %>
+                <% }); %>
+                      
+                <% for(; count <= 10; count++) { %>
+                <tr> <td><%= `${count}.` %></td>
+                  <td> </td> <td> </td> <td> </td> </tr> 
                 <% } %>
-              <% }); %>
-                    
-              <% for(; count <= 10; count++) { %>
-                 <p><%= count %></p>
-              <% } %>
+        
+              </tbody>
+          </table>
+
           </div>
         <% } %>
       </div>
