@@ -193,3 +193,32 @@
 .gsp-not-started #gsp-center-container .gsp-card {
   background-color: #615050;
 }
+
+@media (min-width: 1000px) {
+  #gsp-gameboard {
+    width: 960px;
+    height: 540px;
+  }
+
+  .gsp-card {
+    font-size: 2.0rem;
+  }
+
+  .gsp-player-name {
+    top: -5.8rem;
+    font-size: 2.2rem;
+  }
+
+  .gsp-player-score {
+    bottom: -5.0rem;
+    font-size: 1.6rem;
+  }
+
+  #gsp-winner-banner {
+    font-size: 7rem;
+  }
+
+  #gsp-next-round {
+    font-size: 2.2rem;
+  }
+}
