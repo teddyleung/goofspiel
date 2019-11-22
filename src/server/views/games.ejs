@@ -37,7 +37,9 @@
           <% }; %>    
         <% } %> 
       </div>
-      <button id="button-random-game" class="button button-primary"><span class="emoji">😲</span>RANDOM</button>
+      <% if (userGames.length > 0) {%>
+        <button id="button-random-game" class="button button-primary"><span class="emoji">😲</span>RANDOM</button>
+      <% } %>
     </div>
     </script>
 

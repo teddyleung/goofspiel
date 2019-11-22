@@ -30,9 +30,13 @@
                 <p>Tell your friends!</p>
               <% } else { %>
                 <h3 class='tile-title'>Playing with <%= showPlayers.join(', ') %>!</h3>
-                <% const history = game.game_state.history %>
-                <% const playedRound = history[history.length - 1][accountName] !== null %>
-                <p><%= playedRound ? "Waiting for opponent's move..." : "Your turn to make a move!" %></p>
+                <% if (game.game_state) { %>
+                  <% const history = game.game_state.history %>
+                  <% const playedRound = history[history.length - 1][accountName] !== null %>
+                  <p><%= playedRound ? "Waiting for opponent's move..." : "Your turn to make a move!" %></p>
+                <% } else { %>
+                  <p>Go back to the game</p>
+                <% } %>
               <% } %>
               <div class='tile-footer'>
                 <a href='/games/<%= game.uuid %>'><button class='button button-primary'>Play</button></a>
