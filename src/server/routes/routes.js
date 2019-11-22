@@ -18,15 +18,12 @@ module.exports = function(router, db) {
           return res.redirect("/");
         }
       })
-      .catch(e => res.send(e));
-
+      .catch(e => res.redirect(`/`));
   });
 
   router.post('/logout', (req, res) => {
-
     req.session.name = '';
     res.redirect(`/`);
-
   });
 
   // New user signup, insert to database
