@@ -5,8 +5,8 @@
 
 #gsp-gameboard {
   position: relative;
-  width: 960px;
-  height: 540px;
+  width: 640px;
+  height: 360px;
   background-image: url("/images/jungle-4.png"), url("/images/jungle-3.png"), url("/images/jungle-2.png"), url("/images/jungle-1.png");
   background-size: cover;
   font-family: "8-bit", serif;

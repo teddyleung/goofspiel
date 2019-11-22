@@ -204,9 +204,10 @@ p {
 }
 
 .game-container {
+  height: 100%;
   display: flex;
   justify-content: center;
-  padding-top: 5rem;
+  align-items: center;
 }
 
 .new-games {
