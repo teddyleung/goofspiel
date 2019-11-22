@@ -23,9 +23,14 @@
         
           <% for(let game of userGames) { %>
             <% if(game.name === gameName) { %>
+            <% const missing = playerMin[game.file_name] - game.players.length %>
             <div class="tile tile__<%= game.file_name %> hidden">
-            <h3 class='tile-title'>Playing with <%= game.players.join(', ')%>!</h3>
-            <p>Waiting for opponents!</p>
+            <h3 class='tile-title'>Join <%= game.players.join(', ')%>!</h3>
+            <% if (missing > 0) { %>
+              <p>Needs <%= missing %> more player<%= missing > 1 ? 's' : '' %></p>
+            <% } else { %>
+              <p>Ready to start!</p>
+            <% } %>
             <button href='/games/<%= game.uuid %>' class='button button-primary'>Join</button>
             </div>
             <% } %>

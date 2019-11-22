@@ -12,7 +12,7 @@ const getAllUsers = () => {
     SELECT username FROM users;
   `)
     .then(res => res.rows);
-}; //DONE
+};
 
 // query for user login
 const getUserByName = (name) => {
@@ -26,7 +26,7 @@ const getUserByName = (name) => {
     })
     .catch(err => console.error('query error', err.stack));
 
-}; //DONE
+};
 
 // query for 'My Games' Page
 const getMyGamesList = (name) => {
@@ -50,7 +50,7 @@ const getMyGamesList = (name) => {
       return res.rows || null;
     })
     .catch(err => console.error('query error', err.stack));
-}; //DONE
+};
 
 
 // query for 'Leaderooard' Page
@@ -70,15 +70,14 @@ const getLeaderBoardStat = () => {
       return res.rows || null;
     })
     .catch(err => console.error('query error', err.stack));
-}; //DONE
+};
 
 // query for 'Join Games' Page:
 // 1. game not started   2. game not deleted  3. game is not mine
 const getOpenGames = (name) => {
 
   return pool.query(`
-  select user_games.game_id, games.uuid, game_types.name, game_types.file_name, 
-             games.created_at, games.started_at, users.username, games.game_state 
+  select user_games.game_id, games.uuid, game_types.name, game_types.file_name, game_types.player_min, games.created_at, games.started_at, users.username, games.game_state 
       from users 
       join user_games on users.id = user_games.user_id 
       join games on games.id = user_games.game_id 
@@ -95,7 +94,7 @@ const getOpenGames = (name) => {
       return res.rows || null;
     })
     .catch(err => console.error('query error', err.stack));
-}; //DONE
+};
 
 
 // query for archives: my own games and their results
@@ -126,7 +125,7 @@ const getMyCompletedGames = (name) => {
       return res.rows || null;
     })
     .catch(err => console.error('query error', err.stack));
-}; //DONE
+};
 
 
 // insert a row into users table when a new user sign up
@@ -139,7 +138,7 @@ const addNewUser = (user) => {
     .then((res) => res.rows[0] || null)
     .catch(err => console.error('query error', err.stack));
 
-}; //DONE
+};
 
 // games user has joined
 const getUserGames = (user) => {
@@ -153,7 +152,7 @@ const getUserGames = (user) => {
     `, [user.username, user.password])
     .then((res) => res.rows[0] || null)
     .catch(err => console.error('query error', err.stack));
-}; //DONE
+};
   
 const getGame = gameUuid => {
   return pool.query(`
@@ -162,7 +161,7 @@ const getGame = gameUuid => {
       WHERE uuid = $1
   `, [gameUuid])
     .then(game => game.rows[0]);
-}; //DONE
+};
 
 const getGameAndGameType = gameUuid => {
   return pool.query(`
@@ -174,7 +173,7 @@ const getGameAndGameType = gameUuid => {
       WHERE uuid = $1
   `, [gameUuid])
     .then(games => games.rows[0]);
-}; //DONE
+};
 
 const getGameUsers = gameUuid => {
   return pool.query(`
@@ -185,7 +184,7 @@ const getGameUsers = gameUuid => {
       WHERE games.uuid = $1
   `, [gameUuid])
     .then(users => users.rows);
-}; //DONE
+};
 
 const getGameData = gameUuid => {
   return Promise.all([getGameAndGameType(gameUuid), getGameUsers(gameUuid)])
@@ -290,16 +289,16 @@ const addUserToGame = (gameUuid, game_state, username, gameStartBool) => {
 };
 
 module.exports = {
-  getAllUsers, //DONE
+  getAllUsers,
   getGameData,
-  getUserByName, //DONE
-  getUserGames, //DONE
-  getMyGamesList, //DONE
-  getOpenGames, //DONE
-  getLeaderBoardStat, //DONE
-  getMyCompletedGames, //DONE
-  getGame, //DONE
-  addNewUser, //DONE
+  getUserByName,
+  getUserGames,
+  getMyGamesList,
+  getOpenGames,
+  getLeaderBoardStat,
+  getMyCompletedGames,
+  getGame,
+  addNewUser,
   addNewGame,
   addUserToGame,
   updateGameState,
