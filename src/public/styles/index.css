@@ -253,6 +253,15 @@ p {
   color: var(--primary-color-active);
 }
 
+.emoji {
+  font-size: 1.5em;
+}
+
+#button-random-game {
+  display: flex;
+  align-items: center;
+}
+
 /* ---------- UTILITIES ---------- */
 
 .hidden {

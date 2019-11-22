@@ -25,10 +25,15 @@
             <% if(game.name === gameName) { %>
             <% const showPlayers = game.players.filter(player => player !== accountName) %>
             <div class="tile tile__<%= game.file_name %> hidden">
-              <h3 class='tile-title'>Playing with <%= showPlayers.join(', ') %>!</h3>
-              <% const history = game.game_state.history %>
-              <% const playedRound = history[history.length - 1][accountName] !== null %>
-              <p><%= playedRound ? "Waiting for opponent's move..." : "Your turn to make a move!" %></p>
+              <% if (game.players.length <= 1) { %>
+                <h3 class='tile-title'>Waiting for players to join%>...</h3>
+                <p>Tell your friends!</p>
+              <% } else { %>
+                <h3 class='tile-title'>Playing with <%= showPlayers.join(', ') %>!</h3>
+                <% const history = game.game_state.history %>
+                <% const playedRound = history[history.length - 1][accountName] !== null %>
+                <p><%= playedRound ? "Waiting for opponent's move..." : "Your turn to make a move!" %></p>
+              <% } %>
               <div class='tile-footer'>
                 <a href='/games/<%= game.uuid %>'><button class='button button-primary'>Play</button></a>
               </div>
@@ -43,21 +48,23 @@
     
     <script>
       $(document).ready(()=> {
+        const toggleType = (gameType) => {
+          $('.tile').addClass('hidden');
+          $(`.tile__${gameType}`).removeClass('hidden');
+
+          $('.my-games-toggle').removeClass('type-select');
+          $(`.type__${gameType}`).addClass('type-select');
+        };
 
         $('.my-games-toggle').each(function() {
           $(this).click(() => {
-            $('.tile').addClass('hidden');
-            $(`.tile__${$(this).data('gametype')}`).removeClass('hidden');
-
-            $('.my-games-toggle').removeClass('type-select');
-            $(`.type__${$(this).data('gametype')}`).addClass('type-select');
+            toggleType($(this).data('gametype'));
           })
         })
 
-        $(".game-types").children('div').get(0).click();
+        toggleType($(".game-types").children('div').first().data('gametype'));
+        $('.nav-header [data-path="/room"]').addClass("nav-link-active");
       });
-      
-      $('.nav-header [data-path="/room"]').addClass("nav-link-active");
     </script>
   </body>
 

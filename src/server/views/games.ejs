@@ -10,7 +10,7 @@
   <body>
     <% include ./partials/nav.ejs %>
     <div class="container">
-      <h1 id="game-list">Join Games</h1> <!-- List completed games of all users -->   
+      <h1 id="game-list">Join Games</h1>
   
       <div class='game-types'>      
         <% for(let index in gameTypes) {  %>   
@@ -37,6 +37,7 @@
           <% }; %>    
         <% } %> 
       </div>
+      <button id="button-random-game" class="button button-primary"><span class="emoji">😲</span>RANDOM</button>
     </div>
     </script>
 
@@ -56,8 +57,17 @@
         })
 
         $(".game-types").children('div').get(0).click();
+
+        $("#button-random-game").click(() => {
+          const game = $('.type-select').first().data('gametype');
+          const $gameTiles = $(`.tile__${game}`);
+          const numElementsSelected = $gameTiles.length;
+          const rand = Math.floor(Math.random() * numElementsSelected);
+          const $tile = $($gameTiles.get(rand)).find('button').click();
+        });
+
+        $('.nav-header [data-path="/games"]').addClass("nav-link-active");
       });
-      $('.nav-header [data-path="/games"]').addClass("nav-link-active");
     </script>
   </body>
 
