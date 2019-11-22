@@ -14,15 +14,39 @@
   <div class="container">
     <h1>Archives</h1>  
 
-    <div class='tile-container-leaderbox'>       
-      <div class="tile-leaderboard"> 
-        <h3 style='text-align: center;' class='tile-title'><%= accountName %>'s Games</h3>
+      <div class='tile-container-leaderbox'> 
 
-        <% completedGames.forEach( (game, index) => { %>
-          <p> <%= index + 1 %> <%= game.name %> <%= game.completed_at %>, <%= game.players %>, <%= game.winners %></p>
-        <% }) %> 
+        <% for(let gameName of gameTypes) {  %> 
+       
+          <div class="tile-leaderboard">     
+          <!-- <h3 class='tile-title tile-leaderboard-header'><%= accountName %>'s Games</h> -->
+          <h3 class='tile-title tile-leaderboard-header'><%= gameName %></h>
 
-      </div> 
+          <table class='table-archives'>
+            <thead class='tb-header'>  
+              <tr> <th>Date</th> <th>Opponents</th> <th>Results</th> </tr>
+            </thead>
+
+            <tbody>
+              <% let count = 1 %>            
+              <% completedGames.forEach((game, index) => { %>
+                <% if(game.name === gameName && count <= 10) { %>
+                  <td><%= game.completed_at %></td> 
+                  <td> <%= game.players %></td> 
+                  <td><%= game.winners %></td>
+                </tr>
+                            
+                <% } %>
+              <% }); %>
+                    
+              <% for(; count <= 10; count++) { %>
+              <tr> <td> </td> <td> </td> <td> </td> </tr> 
+              <% } %>        
+              </tbody>
+          </table>
+
+          </div>
+        <% } %>
     </div> 
   </div>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>

@@ -148,8 +148,8 @@ module.exports = function(router, db) {
             ...game,
             completed_at: helpers.formatGameDate(game.completed_at)
           }));
-          console.log(newCompletedGames);
-          res.render(`archives`, {"accountName": username, "completedGames": newCompletedGames});
+          let gameTypes = helpers.getAllGamesName(newCompletedGames, 'name');
+          res.render(`archives`, {"accountName": username, "gameTypes": gameTypes,"completedGames": newCompletedGames});
           return;
         })
         .catch(e => res.send(e));
