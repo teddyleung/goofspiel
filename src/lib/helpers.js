@@ -1,6 +1,5 @@
 // merge players from mulitple rows of one game into a single row and store
 // it in to array, thus each item contains the whole data of each game
-
 const formatGameData = (gameData) => {
   let gamesRow = [];
   let temp = {};
@@ -15,6 +14,7 @@ const formatGameData = (gameData) => {
       temp['file_name'] = game.file_name;
       temp['created_at'] = game.created_at;
       temp['started_at'] = game.started_at;
+      temp['game_state'] = game.game_state;
       temp['players'] = [];
       temp['players'].push(game.username);
     } else {

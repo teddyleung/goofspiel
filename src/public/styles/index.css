@@ -231,6 +231,28 @@ p {
   padding-top: 5rem;
 }
 
+.new-games {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.new-game {
+  cursor: pointer;
+} 
+
+.new-game > img {
+  width: 250px;
+}
+
+.new-game > p {
+  font-weight: 500;
+  font-size: 1.8rem;
+}
+
+.new-game:hover > p {
+  color: var(--primary-color-active);
+}
+
 /* ---------- UTILITIES ---------- */
 
 .hidden {
