@@ -7,9 +7,9 @@
 
 :root {
   --main-bg-color: #f7f7f8;
-  --primary-color: #9147ff;
+  --primary-color: #01a1dd;
   --nav-link-color: #0e0e10;
-  --primary-color-active: #772ce8;
+  --primary-color-active: #0088cc;
   --secondary-color: rgba(0,0,0,0.1);
   --secondary-color-active: rgba(0,0,0,0.15);
 }
@@ -74,6 +74,7 @@ p {
   justify-content: space-between;
   box-shadow: 0 1px 2px rgba(0,0,0,0.15), 0 0px 2px rgba(0,0,0,0.1);
   color: var(--nav-link-color);
+  z-index: 1000;
 }
 
 .nav-header .left-header {
@@ -112,6 +113,8 @@ p {
 
 .nav-logo {
   margin-right: 1rem;
+  width: 34px;
+  margin-top: 0.5rem;
 }
 
 .nav-name-tag {
