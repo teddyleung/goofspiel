@@ -23,23 +23,19 @@
         <% for(let gameName of gameTypes) {  %> 
           <% for(let game of userGames) { %>
             <% if(game.name === gameName) { %>
+            <% const showPlayers = game.players.filter(player => player !== accountName) %>
             <div class="tile tile__<%= game.file_name %> hidden">
-              
-              <% if(game.players.length === 0) { %>
-                <h3 class='tile-title'>Waiting for opponents!</h3>
-              <% } else { %>
-                <h3 class='tile-title'>Playing with <%= game.players.join(', ') %>!</h3>
-              <% } %>
-
-              <p>Your turn to make a move!</p>
+              <h3 class='tile-title'>Playing with <%= showPlayers.join(', ') %>!</h3>
+              <% const history = game.game_state.history %>
+              <% const playedRound = history[history.length - 1][accountName] !== null %>
+              <p><%= playedRound ? "Waiting for opponent's move..." : "Your turn to make a move!" %></p>
               <div class='tile-footer'>
-                <button href='/games/<%= game.uuid %>' class='button button-primary'>Play</button>
-                <!-- <span>Created at <%= game.created_at %></span> -->
+                <a href='/games/<%= game.uuid %>'><button class='button button-primary'>Play</button></a>
               </div>
             </div>
             <% } %>
           <% }; %>
-        <% } %>  
+        <% } %>
       </div>
     </div>
 

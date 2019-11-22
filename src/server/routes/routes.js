@@ -92,7 +92,19 @@ module.exports = function(router, db) {
         let allGames = helpers.formatGameData(gameData, username);
         let gameTypes = helpers.getAllGamesName(allGames, 'name');
         let gameFileNames = helpers.getAllGamesName(allGames, 'file_name');
-        res.render(`games`, {"accountName": req.session.name,"gameTypes": gameTypes, "fileNames": gameFileNames, "userGames": allGames});
+        const playerMin = gameData.reduce((acc, game) => {
+          if (!Number.isInteger(acc[game.file_name])) {
+            acc[game.file_name] = game.player_min;
+          }
+          return acc;
+        }, {});
+        res.render(`games`, {
+          accountName: req.session.name,
+          gameTypes: gameTypes,
+          fileNames: gameFileNames,
+          userGames: allGames,
+          playerMin: playerMin
+        });
         return;
       })
       .catch(e => res.send(e));

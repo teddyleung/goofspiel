@@ -1,6 +1,5 @@
 // merge players from mulitple rows of one game into a single row and store
 // it in to array, thus each item contains the whole data of each game
-
 const formatGameData = (gameData, creatorName) => {
   let gamesRow = [];
   let temp = {};
@@ -10,7 +9,7 @@ const formatGameData = (gameData, creatorName) => {
         gamesRow.push(temp);
         // temp = {};
       }
-      temp = game;
+      temp = {...game};
       temp['players'] = [];
       if (game.username !== creatorName) {
         temp['players'].push(game.username);
