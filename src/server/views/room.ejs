@@ -24,7 +24,13 @@
           <% for(let game of userGames) { %>
             <% if(game.name === gameName) { %>
             <div class="tile tile__<%= game.file_name %> hidden">
-              <h3 class='tile-title'>Playing with <%= game.players.join(', ') %> !</h3>
+              
+              <% if(game.players.length === 0) { %>
+                <h3 class='tile-title'>Waiting for opponents!</h3>
+              <% } else { %>
+                <h3 class='tile-title'>Playing with <%= game.players.join(', ') %>!</h3>
+              <% } %>
+
               <p>Your turn to make a move!</p>
               <div class='tile-footer'>
                 <button href='/games/<%= game.uuid %>' class='button button-primary'>Play</button>
