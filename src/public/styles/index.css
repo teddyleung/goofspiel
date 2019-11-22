@@ -305,6 +305,49 @@ td.leaderboard-col-1 {
   font-weight: 500;
 }
 
+.table-archives {
+  border-collapse: collapse;
+}
+
+.table-archives tr {
+  height: 2.9rem;
+}
+
+.table-archives th {
+  font-weight: 500;
+  color: #666666;
+}
+
+.archives-col-1 {
+  min-width: 12rem;
+  text-align: left;
+  color: #666666;
+}
+
+.archives-col-2 {
+  min-width: 20rem;
+  text-align: left;
+  padding: 0 1rem;
+}
+
+.archives-col-3 {
+  min-width: 5rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.archives_result__WIN {
+  color: #05C46B;
+}
+
+.archives_result__LOSS {
+  color: #FF5E57;
+}
+
+.archives_result__DRAW {
+  color: #FFA801;
+}
+
 /* ---------- UTILITIES ---------- */
 
 .hidden {

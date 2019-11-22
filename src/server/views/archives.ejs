@@ -20,28 +20,31 @@
        
           <div class="tile-leaderboard">     
           <!-- <h3 class='tile-title tile-leaderboard-header'><%= accountName %>'s Games</h> -->
-          <h3 class='tile-title tile-leaderboard-header'><%= gameName %></h>
+          <h3 class='tile-title tile-leaderboard-header'><%= gameName %></h3>
 
           <table class='table-archives'>
             <thead class='tb-header'>  
-              <tr> <th>Date</th> <th>Opponents</th> <th>Results</th> </tr>
+              <tr>
+                <th class="archives-col-1">Date</th>
+                <th class="archives-col-2">Opponents</th>
+                <th class="archives-col-3">Result</th>
+              </tr>
             </thead>
 
             <tbody>
               <% let count = 1 %>            
               <% completedGames.forEach((game, index) => { %>
+                <% const players = game.players.filter(player => player !== accountName).join(', ') %>
+                <% const isWinner = game.winners.includes(accountName) %>
+                <% const winnerCount = game.winners.length %>
+                <% const result = isWinner ? (winnerCount > 1 ? "DRAW" : "WIN") : "LOSS" %>
                 <% if(game.name === gameName && count <= 10) { %>
-                  <td><%= game.completed_at %></td> 
-                  <td> <%= game.players %></td> 
-                  <td><%= game.winners %></td>
+                  <td class="archives-col-1"><%= game.completed_at %></td> 
+                  <td class="archives-col-2"> <%= players %></td> 
+                  <td class="archives-col-3 archives_result__<%= result %>"><%= result %></td>
                 </tr>
-                            
                 <% } %>
-              <% }); %>
-                    
-              <% for(; count <= 10; count++) { %>
-              <tr> <td> </td> <td> </td> <td> </td> </tr> 
-              <% } %>        
+              <% }); %>   
               </tbody>
           </table>
 
