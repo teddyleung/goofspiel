@@ -21,8 +21,7 @@ $(() => {
     $(this).click(() => {
       $.ajax({
         type: 'PUT',
-        //TODO we will be grabbing the uuid from a data attribute
-        url: `/games/${$('#temp-uuid-input').val()}`
+        url: `/games/${$(this).data('uuid')}`
       })
         .done(data => {
           window.location.href = `/games/${data.uuid}`;
