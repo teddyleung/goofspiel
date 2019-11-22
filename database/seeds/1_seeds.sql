@@ -11,9 +11,6 @@ INSERT INTO game_types (name, file_name, player_min, player_max)
   VALUES ('Goofspiel', 'goofspiel', 2, 2),
     ('Cards Against Everything', 'cards_against_everything', 3, 6);
 
-INSERT INTO user_games (user_id, game_id)
-	VALUES (1, 1), 	(2,1), (1, 2), (3, 2), (3, 3), (2, 3), (1, 4);
-
 
 INSERT INTO games (game_type_id, creator_id, created_at, started_at, completed_at,  deleted_at,  game_state)
    VALUES 
@@ -25,6 +22,10 @@ INSERT INTO games (game_type_id, creator_id, created_at, started_at, completed_a
 (2, 4, '2019-11-16 17:54:15', NULL, NULL, NULL, NULL),
 (1, 1, '2019-11-16 18:40:15', NULL, NULL, '2019-11-16 18:40:15', NULL),
 (1, 1, '2019-11-16 18:40:25', NULL, NULL, '2019-11-16 18:40:15', NULL);
+
+
+INSERT INTO user_games (user_id, game_id)
+	VALUES (1, 1), 	(2,1), (1, 2), (3, 2), (3, 3), (2, 3), (1, 4);
 
 INSERT INTO user_games (user_id, game_id)
 	VALUES (1, 1), 	(2,1), (2, 2), (3, 2), (1, 3), (2, 3), (2, 4), (1, 4), (3, 4), (3, 5), (4, 6),
