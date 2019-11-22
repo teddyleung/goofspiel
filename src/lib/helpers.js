@@ -1,30 +1,12 @@
 // merge players from mulitple rows of one game into a single row and store
 // it in to array, thus each item contains the whole data of each game
-const formatGameData = (gameData, creatorName) => {
-  let gamesRow = [];
-  let temp = {};
-  for (let game of gameData) {
-    if (temp['uuid'] !== game.uuid) {
-      if (temp['uuid']) {
-        gamesRow.push(temp);
-        // temp = {};
-      }
-      temp = {...game};
-      temp['players'] = [];
-      if (game.username !== creatorName) {
-        temp['players'].push(game.username);
-      }
-    } else {
-      if (game.username !== creatorName) {
-        temp['players'].push(game.username);
-      }
+const formatGameData = (gameData) => {
+  return gameData.map(game => {
+    return {
+      ...game,
+      players: Object.keys(game.game_state.players)
     }
-  }
-  if (temp['uuid']) {
-    gamesRow.push(temp);
-  }
-  return gamesRow;
-
+  });
 };
 
 const getAllGamesName = (gameArray, key) => {
@@ -41,7 +23,6 @@ const getAllGamesName = (gameArray, key) => {
       }
     }
   }
-  console.array;
   return array;
 };
 

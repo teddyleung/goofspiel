@@ -89,7 +89,7 @@ module.exports = function(router, db) {
 
     db.getOpenGames(username)
       .then(gameData => {
-        let allGames = helpers.formatGameData(gameData, username);
+        let allGames = helpers.formatGameData(gameData);
         let gameTypes = helpers.getAllGamesName(allGames, 'name');
         let gameFileNames = helpers.getAllGamesName(allGames, 'file_name');
         const playerMin = gameData.reduce((acc, game) => {
@@ -118,7 +118,7 @@ module.exports = function(router, db) {
     
     db.getMyGamesList(username)
       .then(gameData => {
-        let allGames = helpers.formatGameData(gameData, username);
+        let allGames = helpers.formatGameData(gameData);
         let gameTypes = helpers.getAllGamesName(allGames, 'name');
         let gameFileNames = helpers.getAllGamesName(allGames, 'file_name');
         res.render(`room`, {"accountName": req.session.name, "gameTypes": gameTypes, "fileNames": gameFileNames, "userGames": allGames});

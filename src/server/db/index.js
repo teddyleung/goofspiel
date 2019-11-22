@@ -32,19 +32,13 @@ const getUserByName = (name) => {
 const getMyGamesList = (name) => {
 
   return pool.query(`
-      select user_games.game_id, games.uuid, game_types.name, game_types.file_name, 
-             games.created_at, games.started_at, users.username, games.game_state 
-      from users 
-      join user_games on users.id = user_games.user_id 
-      join games on games.id = user_games.game_id 
-      join game_types on game_types.id = games.game_type_id
-        where user_games.game_id in (
-        select games.id 
-        from games 
-        join user_games ON games.id = user_games.game_id 
-        join users on users.id = user_games.user_id 
-        where users.username= $1 and games.completed_at is null and games.deleted_at is null )
-      order by game_types.name desc;
+      select games.id, games.uuid, game_types.name, game_types.file_name, 
+        games.created_at, games.started_at, games.game_state 
+          FROM games
+          JOIN game_types ON games.game_type_id = game_types.id
+          JOIN user_games ON games.id = user_games.game_id
+          JOIN users ON users.id = user_games.user_id
+          WHERE users.username = $1 AND games.completed_at is null AND games.deleted_at is null;
       `, [name])
     .then((res) => {
       return res.rows || null;
