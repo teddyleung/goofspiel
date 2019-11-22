@@ -19,22 +19,22 @@
         <% } %>
       </div>
   
-      <% for(let gameName of gameTypes) {  %> 
       <div class='tile-container'>
-        <% for(let game of userGames) { %>
-          <% if(game.name === gameName) { %>
-          <div class="tile tile__<%= game.file_name %> hidden">
-            <h3 class='tile-title'>Playing with <%= game.players.join(', ') %> !</h3>
-            <p>Your turn to make a move!</p>
-            <div class='tile-footer'>
-              <button href='/games/<%= game.uuid %>' class='button button-primary'>Play</button>
-              <!-- <span>Created at <%= game.created_at %></span> -->
+        <% for(let gameName of gameTypes) {  %> 
+          <% for(let game of userGames) { %>
+            <% if(game.name === gameName) { %>
+            <div class="tile tile__<%= game.file_name %> hidden">
+              <h3 class='tile-title'>Playing with <%= game.players.join(', ') %> !</h3>
+              <p>Your turn to make a move!</p>
+              <div class='tile-footer'>
+                <button href='/games/<%= game.uuid %>' class='button button-primary'>Play</button>
+                <!-- <span>Created at <%= game.created_at %></span> -->
+              </div>
             </div>
-          </div>
-          <% } %>
-        <% }; %>
+            <% } %>
+          <% }; %>
+        <% } %>  
       </div>
-      <% } %>  
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
