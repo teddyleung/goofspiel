@@ -18,30 +18,37 @@
         <% for(let gameName of gameTypes) {  %> 
        
           <div class="tile-leaderboard">     
-          <h3 class='tile-title tile-leaderboard-header'>Rank of <%= gameName %></h>
+          <h3 class='tile-leaderboard-header'><%= gameName %></h3>
 
           <table class='table-leaderbox'>
             <thead class='tb-header'>  
-              <tr> <th>Rank</th> <th>Top Players</th> <th>Points</th> </tr>
+              <tr>
+                <th class="leaderboard-col-1">Rank</th>
+                <th class="leaderboard-col-2">Top Players</th>
+                <th class="leaderboard-col-3">Points</th>
+              </tr>
             </thead>
 
-                <tbody>
-                <% let count = 1 %>            
-                <% userScores.forEach((userScore, index) => { %>
-                  <% if(userScore.game_name === gameName && count <= 10) { %>
-                    <tr> <td><%= `${count++}.` %></td> 
-                      <td><%= userScore.username %></td>
-                      <!-- <td><%= userScore.wins %></td> -->
-                      <td><%= userScore.score %></td> </tr>              
-                  <% } %>
-                <% }); %>
-                      
-                <% for(; count <= 10; count++) { %>
-                <tr> <td><%= `${count}.` %></td>
-                  <td> </td> <td> </td> <td> </td> </tr> 
+            <tbody>
+              <% let count = 1 %>            
+              <% userScores.forEach((userScore, index) => { %>
+                <% if(userScore.game_name === gameName && count <= 10) { %>
+                  <tr> 
+                    <td class="leaderboard-col-1"><%= `${count++}.` %></td> 
+                    <td class="leaderboard-col-2"><%= userScore.username %></td>
+                    <td class="leaderboard-col-3"><%= Math.round(userScore.score) %></td>
+                  </tr>              
                 <% } %>
+              <% }); %>
+              <% for(; count <= 10; count++) { %>
+                <tr> 
+                  <td class="leaderboard-col-1"><%= `${count}.` %></td>
+                  <td class="leaderboard-col-2">--</td>
+                  <td class="leaderboard-col-3">--</td>
+                </tr> 
+              <% } %>
         
-              </tbody>
+            </tbody>
           </table>
 
           </div>
