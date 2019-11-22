@@ -4,33 +4,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/styles/index.css" type="text/css" /> 
-    <link rel="stylesheet" href="/styles/newgame.css" type="text/css" /> 
-
     <title>Card Games</title>
   </head>
   <body>
-
     <% include ./partials/nav.ejs %>
     <div class="container">
-      <h1 id="game-list">Start Game</h1>  
-      <div style="display: flex; justify-content: flex-start;">
-        <div class='game-type'> 
-          <img class='pic-shadow' height="300" width="200" src='https://lh3.googleusercontent.com/mCA8uTgjgbl_wYvGtc2H76eGlXJjPvzGxUT1NGDNFiDgzI7u_kJAmMsMm2ypfzE7DA'>  
-          <p style='font-weight: 600;'>GoofSpiel</p>
-        </div>
-        <div  class='game-type'> 
-          <img class='pic-shadow' height="300" width="200" src='https://images-na.ssl-images-amazon.com/images/I/71LpuvHDRLL._SY741_.jpg'>  
-          <p style='font-weight: 600;'>Cards Agaist Humanity</p>
+      <h1>Start Game</h1>  
+      <div class="new-games">
+        <div class="new-game new-game-button" data-game="goofspiel">
+          <img src="/images/goofspiel.png">  
+          <p>Goofspiel</p>
         </div>
       </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-    <script type="text/javascript" src="/scripts/room.js"></script>
-    
+    <script src="/scripts/index.js"></script>
     <script>
       $('.nav-header [data-path="/games/new"]').addClass("nav-link-active");
     </script>
   </body>
-
 </html>
